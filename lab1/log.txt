@@ -1,0 +1,29 @@
+
+što je linq?
+
+LINQ (Language Integrated Query) je način da u C#/F# kodu pišeš upite nad kolekcijama podataka, slično kao SQL, ali direktno u programskom jeziku.
+
+Najkraće:
+
+Imaš listu objekata (npr. treninge).
+LINQ ti omogućuje da ih filtriraš, sortiraš, grupiraš i računaš agregate.
+Rezultat je nova kolekcija ili neka brojčana/statistička vrijednost.
+Što sve radi LINQ:
+
+Where -> filtriranje (npr. samo treninzi ovog mjeseca)
+Select -> projekcija (uzmeš samo određena polja)
+OrderBy / OrderByDescending -> sortiranje
+GroupBy -> grupiranje (npr. po vježbi)
+Sum, Count, Average, Min, Max -> statistika
+Take, Skip -> paginacija / top N
+SelectMany -> “spljošti” ugniježđene liste
+Primjer iz tvog projekta:
+
+sessions.OrderByDescending(fun s -> s.TotalVolumeKg).Take(3)
+to znači: uzmi sve treninge, sortiraj po volumenu silazno i uzmi top 3.
+Zašto je dobar za tvoj labos:
+
+Jasno pokazuje da znaš raditi upite nad objektima.
+Lako demonstriraš statistiku treninga i praćenje napretka.
+Čitljiv je i jednostavan za kasniju doradu.
+Ako želiš, mogu ti odmah prevesti 2-3 tvoja postojeća LINQ upita u “plain language” rečenice koje možeš izgovoriti na obrani.
