@@ -119,11 +119,11 @@ static void AddSetEntry(WorkoutSession session, Exercise exercise, int setNo, in
         Exercise = exercise,
         SetNumber = setNo,
         Repetitions = reps,
-        WeightKg = weight
+        WeightKg = Round2(weight)
     };
 
     session.SetEntries.Add(entry);
-    session.TotalVolumeKg += reps * weight;
+    session.TotalVolumeKg = Round2(session.TotalVolumeKg + (reps * entry.WeightKg));
 }
 
 static void AddMeasurement(UserProfile user, DateTime date, double weight, double bodyFat)
@@ -133,8 +133,8 @@ static void AddMeasurement(UserProfile user, DateTime date, double weight, doubl
         Id = Guid.NewGuid(),
         User = user,
         RecordedAt = date,
-        BodyWeightKg = weight,
-        BodyFatPercentage = bodyFat
+        BodyWeightKg = Round2(weight),
+        BodyFatPercentage = Round2(bodyFat)
     };
 
     user.Measurements.Add(measurement);
@@ -235,7 +235,7 @@ static void SeedAndRunLinqQueries()
                 FullName = $"{u.FirstName} {u.LastName}",
                 FirstWeight = first.BodyWeightKg,
                 LastWeight = last.BodyWeightKg,
-                Diff = last.BodyWeightKg - first.BodyWeightKg
+                Diff = Round2(last.BodyWeightKg - first.BodyWeightKg)
             };
         })
         .OrderBy(x => x.Diff)
@@ -252,7 +252,7 @@ static void SeedAndRunLinqQueries()
     foreach (var session in topSessionsByVolume)
     {
         var sessionDateText = session.SessionDate.ToString("dd.MM.yyyy");
-        Console.WriteLine($"- {session.User?.FirstName} {session.User?.LastName}: {session.TotalVolumeKg} kg ({sessionDateText})");
+        Console.WriteLine($"- {session.User?.FirstName} {session.User?.LastName}: {session.TotalVolumeKg:F2} kg ({sessionDateText})");
     }
 
     Console.WriteLine("\nKoristenje vjezbi (broj setova / ukupno ponavljanja):");
@@ -264,7 +264,7 @@ static void SeedAndRunLinqQueries()
     Console.WriteLine("\nPromjena tjelesne tezine po korisniku:");
     foreach (var item in bodyweightChanges)
     {
-        Console.WriteLine($"- {item.FullName}: {item.FirstWeight} kg -> {item.LastWeight} kg (promjena {item.Diff} kg)");
+        Console.WriteLine($"- {item.FullName}: {item.FirstWeight:F2} kg -> {item.LastWeight:F2} kg (promjena {item.Diff:F2} kg)");
     }
 
     Console.WriteLine("\nBroj korisnika po programu:");
@@ -274,4 +274,9 @@ static void SeedAndRunLinqQueries()
     }
 
     Console.WriteLine("=== Kraj LINQ rezultata ===\n");
+}
+
+static double Round2(double value)
+{
+    return Math.Round(value, 2, MidpointRounding.AwayFromZero);
 }
