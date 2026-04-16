@@ -1,0 +1,33 @@
+@model WorkoutSession
+
+@{
+    ViewData["Title"] = "Detalji treninga";
+}
+
+<section class="detail-shell">
+    <header class="detail-header">
+        <h1>Trening @Model.SessionDate.ToString("dd.MM.yyyy")</h1>
+        <a class="chip-link" asp-action="Index">Natrag na listu</a>
+    </header>
+
+    <div class="detail-grid">
+        <article class="surface-panel">
+            <h2>Session info</h2>
+            <p>Korisnik: @Model.User?.FirstName @Model.User?.LastName</p>
+            <p>Program: @Model.Program?.Name</p>
+            <p>Lokacija: @Model.GymLocation?.Name</p>
+            <p>Trajanje: @Model.DurationMinutes min</p>
+            <p>Volumen: @Model.TotalVolumeKg.ToString("F1") kg</p>
+        </article>
+        <article class="surface-panel">
+            <h2>Setovi</h2>
+            @foreach (var set in Model.SetEntries)
+            {
+                <div class="mini-row">
+                    <span>@set.Exercise?.Name #@set.SetNumber</span>
+                    <span>@set.Repetitions x @set.WeightKg.ToString("F1") kg</span>
+                </div>
+            }
+        </article>
+    </div>
+</section>

@@ -1,0 +1,29 @@
+@model UserProfile
+
+@{
+    ViewData["Title"] = "Detalji korisnika";
+}
+
+<section class="detail-shell">
+    <header class="detail-header">
+        <h1>@Model.FirstName @Model.LastName</h1>
+        <a class="chip-link" asp-action="Index">Natrag na listu</a>
+    </header>
+
+    <div class="detail-grid">
+        <article class="surface-panel">
+            <h2>Profil</h2>
+            <p>Email: @Model.Email</p>
+            <p>Datum rodenja: @Model.DateOfBirth.ToString("dd.MM.yyyy")</p>
+            <p>Visina: @Model.HeightCm.ToString("F1") cm</p>
+            <p>Tezina: @Model.WeightKg.ToString("F1") kg</p>
+        </article>
+        <article class="surface-panel">
+            <h2>Aktivnost</h2>
+            <p>Programa: @Model.Programs.Count</p>
+            <p>Treninga: @Model.Sessions.Count</p>
+            <p>Mjerenja: @Model.Measurements.Count</p>
+            <p>Kreirano: @Model.CreatedAt.ToString("dd.MM.yyyy")</p>
+        </article>
+    </div>
+</section>

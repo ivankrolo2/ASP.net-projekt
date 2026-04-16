@@ -1,0 +1,21 @@
+@model GymLocation
+
+@{
+    ViewData["Title"] = "Detalji lokacije";
+}
+
+<section class="detail-shell">
+    <header class="detail-header">
+        <h1>@Model.Name</h1>
+        <a class="chip-link" asp-action="Index">Natrag na listu</a>
+    </header>
+
+    <div class="detail-grid single-col">
+        <article class="surface-panel">
+            <h2>Lokacija</h2>
+            <p>Grad: @Model.City</p>
+            <p>Kapacitet: @Model.Capacity</p>
+            <p>ID: @Model.Id</p>
+        </article>
+    </div>
+</section>

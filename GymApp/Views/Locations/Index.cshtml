@@ -1,0 +1,31 @@
+@model IEnumerable<GymLocation>
+
+@{
+    ViewData["Title"] = "Lokacije";
+    var selected = ViewData["SelectedFilter"]?.ToString() ?? "all";
+}
+
+<section class="page-panel">
+    <h1 class="page-title">Lokacije</h1>
+    <p class="page-subtitle">Partnerske teretane i kapacitet po gradu.</p>
+
+    <div class="chip-row filter-row">
+        <a class="chip-link @(selected == "all" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-city="all">Sve</a>
+        <a class="chip-link @(selected == "zagreb" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-city="zagreb">Zagreb</a>
+    </div>
+
+    <div class="row-list">
+        @foreach (var location in Model)
+        {
+            <a class="data-row" asp-action="Details" asp-route-id="@location.Id">
+                <div>
+                    <p class="data-title">@location.Name</p>
+                    <p class="data-subtitle">@location.City</p>
+                </div>
+                <div class="data-tags">
+                    <span class="tag">Kapacitet @location.Capacity</span>
+                </div>
+            </a>
+        }
+    </div>
+</section>

@@ -1,0 +1,23 @@
+@model SetEntry
+
+@{
+    ViewData["Title"] = "Detalji seta";
+}
+
+<section class="detail-shell">
+    <header class="detail-header">
+        <h1>Set @Model.SetNumber</h1>
+        <a class="chip-link" asp-action="Index">Natrag na listu</a>
+    </header>
+
+    <div class="detail-grid single-col">
+        <article class="surface-panel">
+            <h2>Detalji</h2>
+            <p>Vjezba: @Model.Exercise?.Name</p>
+            <p>Korisnik: @Model.Session?.User?.FirstName @Model.Session?.User?.LastName</p>
+            <p>Datum treninga: @Model.Session?.SessionDate.ToString("dd.MM.yyyy")</p>
+            <p>Ponavljanja: @Model.Repetitions</p>
+            <p>Tezina: @Model.WeightKg.ToString("F1") kg</p>
+        </article>
+    </div>
+</section>

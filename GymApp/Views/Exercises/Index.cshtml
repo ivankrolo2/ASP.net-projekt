@@ -1,0 +1,35 @@
+@model IEnumerable<Exercise>
+
+@{
+    ViewData["Title"] = "Vjezbe";
+    var selected = ViewData["SelectedFilter"]?.ToString() ?? "all";
+}
+
+<section class="page-panel">
+    <h1 class="page-title">Vjezbe</h1>
+    <p class="page-subtitle">Katalog vjezbi po kategoriji, opremi i misicnoj skupini.</p>
+
+    <div class="chip-row filter-row">
+        <a class="chip-link @(selected == "all" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="all">Sve</a>
+        <a class="chip-link @(selected == "strength" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="strength">Strength</a>
+        <a class="chip-link @(selected == "hypertrophy" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="hypertrophy">Hypertrophy</a>
+        <a class="chip-link @(selected == "cardio" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="cardio">Cardio</a>
+        <a class="chip-link @(selected == "mobility" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="mobility">Mobility</a>
+    </div>
+
+    <div class="row-list">
+        @foreach (var exercise in Model)
+        {
+            <a class="data-row" asp-action="Details" asp-route-id="@exercise.Id">
+                <div>
+                    <p class="data-title">@exercise.Name</p>
+                    <p class="data-subtitle">@exercise.PrimaryMuscleGroup • @exercise.Equipment</p>
+                </div>
+                <div class="data-tags">
+                    <span class="tag">@exercise.Category</span>
+                    <span class="tag">@(exercise.IsCompound ? "Compound" : "Isolation")</span>
+                </div>
+            </a>
+        }
+    </div>
+</section>

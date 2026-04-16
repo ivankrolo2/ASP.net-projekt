@@ -1,0 +1,33 @@
+@model IEnumerable<SetEntry>
+
+@{
+    ViewData["Title"] = "Setovi";
+    var selected = ViewData["SelectedFilter"]?.ToString() ?? "all";
+}
+
+<section class="page-panel">
+    <h1 class="page-title">Set Entries</h1>
+    <p class="page-subtitle">Detaljna evidencija svakog seta unutar sesije.</p>
+
+    <div class="chip-row filter-row">
+        <a class="chip-link @(selected == "all" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-exercise="all">Sve vjezbe</a>
+        <a class="chip-link @(selected == "big3" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-exercise="big3">Big 3</a>
+        <a class="chip-link @(selected == "bodyweight" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-exercise="bodyweight">Bodyweight</a>
+    </div>
+
+    <div class="row-list">
+        @foreach (var set in Model)
+        {
+            <a class="data-row" asp-action="Details" asp-route-id="@set.Id">
+                <div>
+                    <p class="data-title">@set.Exercise?.Name (Set @set.SetNumber)</p>
+                    <p class="data-subtitle">@set.Session?.User?.FirstName @set.Session?.User?.LastName • @set.Session?.SessionDate.ToString("dd.MM.yyyy")</p>
+                </div>
+                <div class="data-tags">
+                    <span class="tag">@set.Repetitions reps</span>
+                    <span class="tag">@set.WeightKg.ToString("F1") kg</span>
+                </div>
+            </a>
+        }
+    </div>
+</section>

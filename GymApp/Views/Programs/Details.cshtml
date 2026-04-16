@@ -1,0 +1,32 @@
+@model TrainingProgram
+
+@{
+    ViewData["Title"] = "Detalji programa";
+}
+
+<section class="detail-shell">
+    <header class="detail-header">
+        <h1>@Model.Name</h1>
+        <a class="chip-link" asp-action="Index">Natrag na listu</a>
+    </header>
+
+    <div class="detail-grid">
+        <article class="surface-panel">
+            <h2>Program</h2>
+            <p>Cilj: @Model.Goal</p>
+            <p>Trajanje: @Model.Weeks tjedana</p>
+            <p>Difficulty: @Model.Difficulty</p>
+            <p>Coach: @Model.CoachName</p>
+        </article>
+        <article class="surface-panel">
+            <h2>Vjezbe</h2>
+            @foreach (var pe in Model.ProgramExercises)
+            {
+                <div class="mini-row">
+                    <span>@pe.Exercise?.Name</span>
+                    <span>@pe.TargetSets x @pe.TargetReps</span>
+                </div>
+            }
+        </article>
+    </div>
+</section>

@@ -1,8 +1,79 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HomeDashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="hero-panel">
+    <p class="eyebrow">GymApp Data Hub</p>
+    <h1 class="outline-heading">TRACK. LIFT. REPEAT.</h1>
+    <p class="hero-copy">Read-only pregled svih entiteta i relacija iz mock repozitorija. Otvori bilo koji modul i istrazi podatke kroz liste i detalje.</p>
+    <div class="chip-row">
+        <a class="chip-link chip-link-active" asp-controller="Users" asp-action="Index">Korisnici</a>
+        <a class="chip-link" asp-controller="Programs" asp-action="Index">Programi</a>
+        <a class="chip-link" asp-controller="Exercises" asp-action="Index">Vjezbe</a>
+        <a class="chip-link" asp-controller="Sessions" asp-action="Index">Treninzi</a>
+        <a class="chip-link" asp-controller="Measurements" asp-action="Index">Mjerenja</a>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card">
+        <p class="stat-label">Korisnici</p>
+        <p class="stat-value">@Model.UsersCount</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Programi</p>
+        <p class="stat-value">@Model.ProgramsCount</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Treninzi</p>
+        <p class="stat-value">@Model.SessionsCount</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Vjezbe</p>
+        <p class="stat-value">@Model.ExercisesCount</p>
+    </article>
+</section>
+
+<section class="split-grid">
+    <article class="surface-panel">
+        <header class="panel-header">
+            <h2>Zadnji treninzi</h2>
+            <a asp-controller="Sessions" asp-action="Index">Sve</a>
+        </header>
+        <div class="row-list">
+            @foreach (var session in Model.RecentSessions)
+            {
+                <a class="data-row" asp-controller="Sessions" asp-action="Details" asp-route-id="@session.Id">
+                    <div>
+                        <p class="data-title">@session.User?.FirstName @session.User?.LastName</p>
+                        <p class="data-subtitle">@session.Program?.Name • @session.SessionDate.ToString("dd.MM.yyyy")</p>
+                    </div>
+                    <span class="data-highlight">@session.TotalVolumeKg.ToString("F1") kg</span>
+                </a>
+            }
+        </div>
+    </article>
+
+    <article class="surface-panel">
+        <header class="panel-header">
+            <h2>Najcesce vjezbe</h2>
+            <a asp-controller="Exercises" asp-action="Index">Otvori</a>
+        </header>
+        <div class="row-list">
+            @foreach (var exercise in Model.TopExercises)
+            {
+                <div class="data-row">
+                    <div>
+                        <p class="data-title">@exercise.ExerciseName</p>
+                        <p class="data-subtitle">@exercise.SetCount setova</p>
+                    </div>
+                    <div class="progress-pill">
+                        <span style="width: @(Math.Min(exercise.RepetitionCount, 120) * 100 / 120)%"></span>
+                    </div>
+                </div>
+            }
+        </div>
+    </article>
+</section>

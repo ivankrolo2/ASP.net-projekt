@@ -1,0 +1,22 @@
+@model ProgramExercise
+
+@{
+    ViewData["Title"] = "Detalji relacije";
+}
+
+<section class="detail-shell">
+    <header class="detail-header">
+        <h1>@Model.Program?.Name</h1>
+        <a class="chip-link" asp-action="Index">Natrag na listu</a>
+    </header>
+
+    <div class="detail-grid single-col">
+        <article class="surface-panel">
+            <h2>Program + vjezba</h2>
+            <p>Program: @Model.Program?.Name</p>
+            <p>Vjezba: @Model.Exercise?.Name</p>
+            <p>Dan: @Model.DayOfWeek</p>
+            <p>Cilj: @Model.TargetSets setova x @Model.TargetReps reps</p>
+        </article>
+    </div>
+</section>

@@ -1,0 +1,22 @@
+@model BodyMeasurement
+
+@{
+    ViewData["Title"] = "Detalji mjerenja";
+}
+
+<section class="detail-shell">
+    <header class="detail-header">
+        <h1>@Model.User?.FirstName @Model.User?.LastName</h1>
+        <a class="chip-link" asp-action="Index">Natrag na listu</a>
+    </header>
+
+    <div class="detail-grid single-col">
+        <article class="surface-panel">
+            <h2>Mjerenje</h2>
+            <p>Datum: @Model.RecordedAt.ToString("dd.MM.yyyy")</p>
+            <p>Tjelesna masa: @Model.BodyWeightKg.ToString("F1") kg</p>
+            <p>Body fat: @Model.BodyFatPercentage.ToString("F1")%</p>
+            <p>Korisnik ID: @Model.User?.Id</p>
+        </article>
+    </div>
+</section>

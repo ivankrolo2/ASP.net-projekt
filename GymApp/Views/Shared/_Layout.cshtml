@@ -4,49 +4,62 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - GymApp</title>
-
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GymApp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    @{
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "Home";
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "Index";
+        var sectionLabel = ViewData["Section"]?.ToString() ?? "Dashboard";
+        var sectionController = ViewData["SectionController"]?.ToString() ?? "Home";
+        var pageTitle = ViewData["PageTitle"]?.ToString() ?? ViewData["Title"]?.ToString() ?? "Pregled";
+    }
+
+    <div class="app-shell">
+        <aside class="sidebar" id="mainSidebar">
+            <a class="logo-mark" asp-controller="Home" asp-action="Index">GYM</a>
+
+            <nav class="menu-block">
+                <a class="menu-link @(currentController == "Home" ? "active" : string.Empty)" asp-controller="Home" asp-action="Index">Dashboard</a>
+                <a class="menu-link @(currentController == "Users" ? "active" : string.Empty)" asp-controller="Users" asp-action="Index">Korisnici</a>
+                <a class="menu-link @(currentController == "Programs" ? "active" : string.Empty)" asp-controller="Programs" asp-action="Index">Programi</a>
+                <a class="menu-link @(currentController == "Exercises" ? "active" : string.Empty)" asp-controller="Exercises" asp-action="Index">Vjezbe</a>
+                <a class="menu-link @(currentController == "Sessions" ? "active" : string.Empty)" asp-controller="Sessions" asp-action="Index">Treninzi</a>
+                <a class="menu-link @(currentController == "SetEntries" ? "active" : string.Empty)" asp-controller="SetEntries" asp-action="Index">Setovi</a>
+                <a class="menu-link @(currentController == "Measurements" ? "active" : string.Empty)" asp-controller="Measurements" asp-action="Index">Mjerenja</a>
+                <a class="menu-link @(currentController == "Locations" ? "active" : string.Empty)" asp-controller="Locations" asp-action="Index">Lokacije</a>
+                <a class="menu-link @(currentController == "ProgramExercises" ? "active" : string.Empty)" asp-controller="ProgramExercises" asp-action="Index">Program vjezbe</a>
+            </nav>
+        </aside>
+
+        <div class="main-stage">
+            <header class="topbar">
+                <button class="sidebar-toggle" type="button" id="sidebarToggle">Menu</button>
+                <nav class="breadcrumbs" aria-label="Breadcrumb">
+                    <a asp-controller="Home" asp-action="Index">Home</a>
+                    @if (currentController != "Home")
+                    {
+                        <span>/</span>
+                        <a asp-controller="@sectionController" asp-action="Index">@sectionLabel</a>
+                        @if (currentAction == "Details")
+                        {
+                            <span>/</span>
+                            <span>@pageTitle</span>
+                        }
+                    }
+                </nav>
+            </header>
+
+            <main class="content-wrap" role="main">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - GymApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

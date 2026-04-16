@@ -1,0 +1,28 @@
+@model Exercise
+
+@{
+    ViewData["Title"] = "Detalji vjezbe";
+}
+
+<section class="detail-shell">
+    <header class="detail-header">
+        <h1>@Model.Name</h1>
+        <a class="chip-link" asp-action="Index">Natrag na listu</a>
+    </header>
+
+    <div class="detail-grid">
+        <article class="surface-panel">
+            <h2>Opis</h2>
+            <p>@Model.Description</p>
+            <p>Kategorija: @Model.Category</p>
+            <p>Primarna skupina: @Model.PrimaryMuscleGroup</p>
+            <p>Oprema: @Model.Equipment</p>
+        </article>
+        <article class="surface-panel">
+            <h2>Programska upotreba</h2>
+            <p>Programskih veza: @Model.ProgramExercises.Count</p>
+            <p>Tip: @(Model.IsCompound ? "Compound" : "Isolation")</p>
+            <p>Kreirano: @Model.CreatedAt.ToString("dd.MM.yyyy")</p>
+        </article>
+    </div>
+</section>
