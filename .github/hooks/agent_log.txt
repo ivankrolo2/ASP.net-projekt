@@ -47,4 +47,12 @@ Validacija:
 
 dotnet build prolazi bez greške.
 Ako želiš, mogu dodati i broj rezultata uz svaki filter chip (npr. Hard (1)).
-Mogu napraviti i kombinirane filtere (npr. Sessions: mjesec + korisnik zajedno).
+Mogu napraviti i kombinirane filtere (npr. Sessions: mjesec + korisnik zajedno).[2026-04-17 15:35:11.665] [PreToolUse]
+{"timestamp":"2026-04-17T13:35:08.828Z","hook_event_name":"PreToolUse","session_id":"a520dcb8-f3fa-48e4-8d51-2b18b290a6aa","transcript_path":"c:\\Users\\Korisnik\\AppData\\Roaming\\Code\\User\\workspaceStorage\\80eb65c5c0f37bc38315aa925256daa0\\GitHub.copilot-chat\\transcripts\\a520dcb8-f3fa-48e4-8d51-2b18b290a6aa.jsonl","tool_name":"run_in_terminal","tool_input":{"command":"Set-Location \"c:\\Ivan Krolo\\TVZ\\ASP_projekt\"; '{\"event\":\"target-file-test\"}' | powershell.exe -NoProfile -ExecutionPolicy Bypass -File .github\\hooks\\log-hook.ps1 -EventName UserPromptSubmit; Get-Content \"ASP.net-projekt\\.github\\hooks\\agent_log.txt\" -Tail 8","explanation":"Run logger script and verify entries are appended to the subproject hook log file.","goal":"Confirm logging goes to uploadable repository file","isBackground":false},"tool_use_id":"call_PFb1jrhZja2X4joaAfNkNVgX__vscode-1776430900719","cwd":"c:\\Ivan Krolo\\TVZ\\ASP_projekt"}
+------------------------------
+
+[2026-04-17 15:35:33.004] [UserPromptSubmit]
+{"event":"target-file-test"}
+
+------------------------------
+
