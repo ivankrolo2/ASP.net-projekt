@@ -3,13 +3,13 @@
     "UserPromptSubmit": [
       {
         "type": "command",
-        "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"$payload = [Console]::In.ReadToEnd(); if (-not [string]::IsNullOrWhiteSpace($payload)) { $logDir = Join-Path (Get-Location) '.github/hooks'; if (-not (Test-Path -Path $logDir)) { New-Item -Path $logDir -ItemType Directory -Force | Out-Null }; $logPath = Join-Path $logDir 'agent_log.txt'; Add-Content -Path $logPath -Value $payload -Encoding UTF8 }\""
+        "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"$payload = [Console]::In.ReadToEnd(); if (-not [string]::IsNullOrWhiteSpace($payload)) { $logDir = Join-Path (Get-Location) '.github/hooks'; if (-not (Test-Path -Path $logDir)) { New-Item -Path $logDir -ItemType Directory -Force | Out-Null }; $logPath = Join-Path $logDir 'agent_log.txt'; $timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss.fff'; $entry = \"[$timestamp] [UserPromptSubmit]`r`n$payload`r`n------------------------------`r`n\"; Add-Content -Path $logPath -Value $entry -Encoding UTF8 }\""
       }
     ],
     "PreToolUse": [
       {
         "type": "command",
-        "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"$payload = [Console]::In.ReadToEnd(); if (-not [string]::IsNullOrWhiteSpace($payload)) { $logDir = Join-Path (Get-Location) '.github/hooks'; if (-not (Test-Path -Path $logDir)) { New-Item -Path $logDir -ItemType Directory -Force | Out-Null }; $logPath = Join-Path $logDir 'agent_log.txt'; Add-Content -Path $logPath -Value $payload -Encoding UTF8 }\""
+        "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"$payload = [Console]::In.ReadToEnd(); if (-not [string]::IsNullOrWhiteSpace($payload)) { $logDir = Join-Path (Get-Location) '.github/hooks'; if (-not (Test-Path -Path $logDir)) { New-Item -Path $logDir -ItemType Directory -Force | Out-Null }; $logPath = Join-Path $logDir 'agent_log.txt'; $timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss.fff'; $entry = \"[$timestamp] [PreToolUse]`r`n$payload`r`n------------------------------`r`n\"; Add-Content -Path $logPath -Value $entry -Encoding UTF8 }\""
       }
     ]
   }
