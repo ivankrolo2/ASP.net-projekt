@@ -1,0 +1,50 @@
+
+Krećem s implementacijom quick filtera kao server-side filteri na Index stranicama (chip linkovi + reset), tako da odmah rade bez dodatnih biblioteka. Prvo ću proširiti kontrolere query parametrima, zatim view-e s filter trakama.
+
+Sad proširujem sve Index view-e s quick filter trakom i mapiram ih na query parametre iz kontrolera, tako da je UX konzistentan kroz cijelu aplikaciju.
+
+Kontroleri sad podržavaju query filtere. Sljedeće ubacujem quick-filter chipove na svih 8 listi (s aktivnim stanjem i reset linkom) da budu odmah klikabilni u UI-u.
+
+Quick filteri su ubačeni u kontrolere i list view-e; sad pokrećem build da potvrdim da sve rute i Razor izrazi rade bez greške.
+
+Quick filteri su dodani i rade.
+
+Što sam implementirao:
+
+Dodani query filter parametri u sve Index akcije:
+
+Controllers/UsersController.cs
+Controllers/ProgramsController.cs
+Controllers/ExercisesController.cs
+Controllers/SessionsController.cs
+Controllers/LocationsController.cs
+Controllers/MeasurementsController.cs
+Controllers/SetEntriesController.cs
+Controllers/ProgramExercisesController.cs
+Dodani quick filter chipovi na svim Index stranicama:
+
+Views/Users/Index.cshtml
+Views/Programs/Index.cshtml
+Views/Exercises/Index.cshtml
+Views/Sessions/Index.cshtml
+Views/Locations/Index.cshtml
+Views/Measurements/Index.cshtml
+Views/SetEntries/Index.cshtml
+Views/ProgramExercises/Index.cshtml
+Dodan mali spacing/styling za filter red:
+
+wwwroot/css/site.css
+Primjeri filtera:
+
+Users: svi, 2+ treninga, 0-1 trening
+Programs: easy/medium/hard
+Exercises: strength/hypertrophy/cardio/mobility
+Sessions: rani dio mjeseca / kasniji dio
+Measurements: po korisniku
+SetEntries: big 3 / bodyweight
+ProgramExercises: dan 1/2/3
+Validacija:
+
+dotnet build prolazi bez greške.
+Ako želiš, mogu dodati i broj rezultata uz svaki filter chip (npr. Hard (1)).
+Mogu napraviti i kombinirane filtere (npr. Sessions: mjesec + korisnik zajedno).
