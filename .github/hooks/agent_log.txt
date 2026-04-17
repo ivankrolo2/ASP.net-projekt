@@ -56,3 +56,45 @@ Mogu napraviti i kombinirane filtere (npr. Sessions: mjesec + korisnik zajedno).
 
 ------------------------------
 
+[2026-04-17 15:38:32.511] [UserPromptSubmit]
+{"timestamp":"2026-04-17T13:38:29.839Z","hook_event_name":"UserPromptSubmit","session_id":"a520dcb8-f3fa-48e4-8d51-2b18b290a6aa","transcript_path":"c:\\Users\\Korisnik\\AppData\\Roaming\\Code\\User\\workspaceStorage\\80eb65c5c0f37bc38315aa925256daa0\\GitHub.copilot-chat\\transcripts\\a520dcb8-f3fa-48e4-8d51-2b18b290a6aa.jsonl","prompt":"┼Żelim da mi se se+ve prebaci na ASP.net-projekt jer mi je to main branch na github-u","cwd":"c:\\Ivan Krolo\\TVZ\\ASP_projekt"}
+------------------------------
+
+[2026-04-17 15:38:58.808] [PreToolUse]
+{"timestamp":"2026-04-17T13:38:55.696Z","hook_event_name":"PreToolUse","session_id":"a520dcb8-f3fa-48e4-8d51-2b18b290a6aa","transcript_path":"c:\\Users\\Korisnik\\AppData\\Roaming\\Code\\User\\workspaceStorage\\80eb65c5c0f37bc38315aa925256daa0\\GitHub.copilot-chat\\transcripts\\a520dcb8-f3fa-48e4-8d51-2b18b290a6aa.jsonl","tool_name":"list_dir","tool_input":{"path":"c:\\Ivan Krolo\\TVZ\\ASP_projekt\\.vscode"},"tool_use_id":"call_Er20EsnT54HAUztecfSPgsAn__vscode-1776430900722","cwd":"c:\\Ivan Krolo\\TVZ\\ASP_projekt"}
+------------------------------
+
+[2026-04-17 15:38:58.817] [PreToolUse]
+{"timestamp":"2026-04-17T13:38:55.710Z","hook_event_name":"PreToolUse","session_id":"a520dcb8-f3fa-48e4-8d51-2b18b290a6aa","transcript_path":"c:\\Users\\Korisnik\\AppData\\Roaming\\Code\\User\\workspaceStorage\\80eb65c5c0f37bc38315aa925256daa0\\GitHub.copilot-chat\\transcripts\\a520dcb8-f3fa-48e4-8d51-2b18b290a6aa.jsonl","tool_name":"list_dir","tool_input":{"path":"c:\\Ivan Krolo\\TVZ\\ASP_projekt\\.github\\hooks"},"tool_use_id":"call_YhNRLSrpoJRSgsi8MB6VE35a__vscode-1776430900720","cwd":"c:\\Ivan Krolo\\TVZ\\ASP_projekt"}
+------------------------------
+
+[2026-04-17 15:39:07.500] [PreToolUse]
+{"timestamp":"2026-04-17T13:39:04.607Z","hook_event_name":"PreToolUse","session_id":"a520dcb8-f3fa-48e4-8d51-2b18b290a6aa","transcript_path":"c:\\Users\\Korisnik\\AppData\\Roaming\\Code\\User\\workspaceStorage\\80eb65c5c0f37bc38315aa925256daa0\\GitHub.copilot-chat\\transcripts\\a520dcb8-f3fa-48e4-8d51-2b18b290a6aa.jsonl","tool_name":"read_file","tool_input":{"filePath":"c:\\Ivan Krolo\\TVZ\\ASP_projekt\\.vscode\\settings.json","startLine":1,"endLine":120},"tool_use_id":"call_hCVXCJMRC5cxBDkudNe3upo2__vscode-1776430900726","cwd":"c:\\Ivan Krolo\\TVZ\\ASP_projekt"}
+------------------------------
+
+[2026-04-17 15:39:07.512] [PreToolUse]
+{"timestamp":"2026-04-17T13:39:04.602Z","hook_event_name":"PreToolUse","session_id":"a520dcb8-f3fa-48e4-8d51-2b18b290a6aa","transcript_path":"c:\\Users\\Korisnik\\AppData\\Roaming\\Code\\User\\workspaceStorage\\80eb65c5c0f37bc38315aa925256daa0\\GitHub.copilot-chat\\transcripts\\a520dcb8-f3fa-48e4-8d51-2b18b290a6aa.jsonl","tool_name":"read_file","tool_input":{"filePath":"c:\\Ivan Krolo\\TVZ\\ASP_projekt\\.github\\hooks\\log-hook.ps1","startLine":1,"endLine":260},"tool_use_id":"call_aZs24V8SyN0FuPByDRVAS3zP__vscode-1776430900725","cwd":"c:\\Ivan Krolo\\TVZ\\ASP_projekt"}
+------------------------------
+
+[2026-04-17 15:39:07.597] [HookError:PreToolUse] The process cannot access the file 'C:\Ivan Krolo\TVZ\ASP_projekt\ASP.net-projekt\.github\hooks\agent_log.txt' because it is being used by another process.
+[2026-04-17 15:39:26.844] [PreToolUse]
+{"timestamp":"2026-04-17T13:39:24.069Z","hook_event_name":"PreToolUse","session_id":"a520dcb8-f3fa-48e4-8d51-2b18b290a6aa","transcript_path":"c:\\Users\\Korisnik\\AppData\\Roaming\\Code\\User\\workspaceStorage\\80eb65c5c0f37bc38315aa925256daa0\\GitHub.copilot-chat\\transcripts\\a520dcb8-f3fa-48e4-8d51-2b18b290a6aa.jsonl","tool_name":"create_file","tool_input":{"filePath":"c:\\Ivan Krolo\\TVZ\\ASP_projekt\\ASP.net-projekt\\.github\\hooks\\hooks.json","content":"{\n  \"hooks\": {\n    \"UserPromptSubmit\": [\n      {\n        \"type\": \"command\",\n        \"command\": \"pwsh -File .github/hooks/log-hook.ps1 -EventName UserPromptSubmit\",\n        \"windows\": \"powershell.exe -NoProfile -ExecutionPolicy Bypass -File .github\\\\hooks\\\\log-hook.ps1 -EventName UserPromptSubmit\",\n        \"timeout\": 15\n      }\n    ],\n    \"PreToolUse\": [\n      {\n        \"type\": \"command\",\n        \"command\": \"pwsh -File .github/hooks/log-hook.ps1 -EventName PreToolUse\",\n        \"windows\": \"powershell.exe -NoProfile -ExecutionPolicy Bypass -File .github\\\\hooks\\\\log-hook.ps1 -EventName PreToolUse\",\n        \"timeout\": 15\n      }\n    ]\n  }\n}\n"},"tool_use_id":"call_mFgvaTMhTqportHJMqPTf5rT__vscode-1776430900727","cwd":"c:\\Ivan Krolo\\TVZ\\ASP_projekt"}
+------------------------------
+
+[2026-04-17 15:39:29.779] [PreToolUse]
+{"timestamp":"2026-04-17T13:39:27.024Z","hook_event_name":"PreToolUse","session_id":"a520dcb8-f3fa-48e4-8d51-2b18b290a6aa","transcript_path":"c:\\Users\\Korisnik\\AppData\\Roaming\\Code\\User\\workspaceStorage\\80eb65c5c0f37bc38315aa925256daa0\\GitHub.copilot-chat\\transcripts\\a520dcb8-f3fa-48e4-8d51-2b18b290a6aa.jsonl","tool_name":"create_file","tool_input":{"filePath":"c:\\Ivan Krolo\\TVZ\\ASP_projekt\\ASP.net-projekt\\.github\\hooks\\log-hook.ps1","content":"param(\n    [Parameter(Mandatory = $true)]\n    [string]$EventName\n)\n\n$ErrorActionPreference = 'Stop'\n\ntry {\n    $payload = [Console]::In.ReadToEnd()\n\n    if ([string]::IsNullOrWhiteSpace($payload)) {\n        $payload = '<empty-payload>'\n    }\n\n    $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\\..')).Path\n    $logDir = Join-Path $repoRoot '.github\\hooks'\n    if (-not (Test-Path -Path $logDir)) {\n        New-Item -Path $logDir -ItemType Directory -Force | Out-Null\n    }\n\n    $logPath = Join-Path $logDir 'agent_log.txt'\n    $timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss.fff'\n    $entry = \"[$timestamp] [$EventName]`r`n$payload`r`n------------------------------`r`n\"\n\n    Add-Content -Path $logPath -Value $entry -Encoding UTF8\n    exit 0\n}\ncatch {\n    # Keep hook non-blocking but leave a trace for diagnosis.\n    try {\n        $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\\..')).Path\n        $fallbackLog = Join-Path $repoRoot '.github\\hooks\\agent_log.txt'\n        $timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss.fff'\n        Add-Content -Path $fallbackLog -Value \"[$timestamp] [HookError:$EventName] $($_.Exception.Message)\" -Encoding UTF8\n    }\n    catch {\n    }\n\n    exit 0\n}\n"},"tool_use_id":"call_bqLlYHSqDDZNQFA6H5Gzod8x__vscode-1776430900728","cwd":"c:\\Ivan Krolo\\TVZ\\ASP_projekt"}
+------------------------------
+
+[2026-04-17 15:39:32.560] [PreToolUse]
+{"timestamp":"2026-04-17T13:39:29.981Z","hook_event_name":"PreToolUse","session_id":"a520dcb8-f3fa-48e4-8d51-2b18b290a6aa","transcript_path":"c:\\Users\\Korisnik\\AppData\\Roaming\\Code\\User\\workspaceStorage\\80eb65c5c0f37bc38315aa925256daa0\\GitHub.copilot-chat\\transcripts\\a520dcb8-f3fa-48e4-8d51-2b18b290a6aa.jsonl","tool_name":"create_file","tool_input":{"filePath":"c:\\Ivan Krolo\\TVZ\\ASP_projekt\\ASP.net-projekt\\.vscode\\settings.json","content":"{\n  \"chat.hookFilesLocations\": {\n    \".github/hooks\": true\n  }\n}\n"},"tool_use_id":"call_hnPqouC2FKF5JaMpYtsa3dxb__vscode-1776430900729","cwd":"c:\\Ivan Krolo\\TVZ\\ASP_projekt"}
+------------------------------
+
+[2026-04-17 15:39:44.327] [PreToolUse]
+{"timestamp":"2026-04-17T13:39:41.477Z","hook_event_name":"PreToolUse","session_id":"a520dcb8-f3fa-48e4-8d51-2b18b290a6aa","transcript_path":"c:\\Users\\Korisnik\\AppData\\Roaming\\Code\\User\\workspaceStorage\\80eb65c5c0f37bc38315aa925256daa0\\GitHub.copilot-chat\\transcripts\\a520dcb8-f3fa-48e4-8d51-2b18b290a6aa.jsonl","tool_name":"apply_patch","tool_input":{"explanation":"Remove old hook config/script/settings from workspace root so ASP.net-projekt is the single source of truth.","input":"*** Begin Patch\n*** Delete File: c:\\Ivan Krolo\\TVZ\\ASP_projekt\\.github\\hooks\\hooks.json\n*** Delete File: c:\\Ivan Krolo\\TVZ\\ASP_projekt\\.github\\hooks\\log-hook.ps1\n*** Delete File: c:\\Ivan Krolo\\TVZ\\ASP_projekt\\.vscode\\settings.json\n*** End Patch"},"tool_use_id":"call_bxYnWZlSolwNy6JUykT8aH3D__vscode-1776430900730","cwd":"c:\\Ivan Krolo\\TVZ\\ASP_projekt"}
+------------------------------
+
+[2026-04-17 15:39:59.587] [UserPromptSubmit]
+{"event":"repo-main-test"}
+
+------------------------------
+

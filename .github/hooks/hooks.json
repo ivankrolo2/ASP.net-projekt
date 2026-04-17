@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "type": "command",
+        "command": "pwsh -File .github/hooks/log-hook.ps1 -EventName UserPromptSubmit",
+        "windows": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File .github\\hooks\\log-hook.ps1 -EventName UserPromptSubmit",
+        "timeout": 15
+      }
+    ],
+    "PreToolUse": [
+      {
+        "type": "command",
+        "command": "pwsh -File .github/hooks/log-hook.ps1 -EventName PreToolUse",
+        "windows": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File .github\\hooks\\log-hook.ps1 -EventName PreToolUse",
+        "timeout": 15
+      }
+    ]
+  }
+}
