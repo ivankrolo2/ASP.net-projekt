@@ -253,6 +253,77 @@ a {
   font-size: clamp(2rem, 4vw, 3.2rem);
 }
 
+.surface-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.btn-theme-primary {
+  background: var(--red);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s ease;
+}
+
+.btn-theme-primary:hover {
+  background: var(--red-dark);
+  color: #fff;
+}
+
+.theme-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.theme-table th {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px;
+  border-bottom: 2px solid var(--line);
+  text-align: left;
+}
+
+.theme-table td {
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.theme-table tbody tr:hover {
+  background: var(--bg-surface-2);
+}
+
+.badge-specialty {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.action-link {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.action-link:hover {
+  background: var(--line);
+  color: var(--text-main);
+}
+
 .page-subtitle {
   margin-top: 8px;
   color: var(--text-muted);
