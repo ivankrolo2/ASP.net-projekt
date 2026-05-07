@@ -1,8 +1,15 @@
 using GymApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<IGymRepository, MockGymRepository>();
+var connectionString = builder.Configuration.GetConnectionString("GymDb")
+    ?? throw new InvalidOperationException("Connection string 'GymDb' not found.");
+
+builder.Services.AddDbContext<GymDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+builder.Services.AddScoped<IGymRepository, EfGymRepository>();
 
 builder.Services
     .AddControllersWithViews()
@@ -22,6 +29,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
+
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",

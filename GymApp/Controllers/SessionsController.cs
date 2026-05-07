@@ -12,6 +12,7 @@ public class SessionsController : Controller
         _repository = repository;
     }
 
+    [HttpGet("treninzi/{month?}")]
     public IActionResult Index(string month = "all")
     {
         ViewData["Section"] = "Treninzi";
@@ -30,6 +31,7 @@ public class SessionsController : Controller
         return View(sessions.OrderByDescending(x => x.SessionDate));
     }
 
+    [HttpGet("treninzi/detalji/{id:guid}")]
     public IActionResult Details(Guid id)
     {
         var session = _repository.GetSession(id);

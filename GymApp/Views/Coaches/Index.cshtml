@@ -1,0 +1,36 @@
+@model IEnumerable<GymApp.Models.Coach>
+
+@{
+    ViewData["Title"] = ViewData["PageTitle"] ?? "Treneri";
+}
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <h2>@ViewData["PageTitle"]</h2>
+    <a class="btn btn-primary" asp-controller="Coaches" asp-action="Create">Novi trener</a>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Email</th>
+            <th>Specijalnost</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var coach in Model)
+    {
+        <tr>
+            <td>@coach.FirstName</td>
+            <td>@coach.LastName</td>
+            <td>@coach.Email</td>
+            <td>@coach.Specialty</td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-secondary" asp-controller="Coaches" asp-action="Edit" asp-route-id="@coach.Id">Uredi</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

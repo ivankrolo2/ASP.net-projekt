@@ -13,6 +13,7 @@ public class ProgramsController : Controller
         _repository = repository;
     }
 
+    [HttpGet("programi/{difficulty?}")]
     public IActionResult Index(string difficulty = "all")
     {
         ViewData["Section"] = "Programi";
@@ -29,6 +30,7 @@ public class ProgramsController : Controller
         return View(programs.OrderBy(x => x.Name));
     }
 
+    [HttpGet("programi/detalji/{id:guid}")]
     public IActionResult Details(Guid id)
     {
         var program = _repository.GetProgram(id);

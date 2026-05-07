@@ -12,6 +12,7 @@ public interface IGymRepository
     IReadOnlyList<BodyMeasurement> Measurements { get; }
     IReadOnlyList<GymLocation> Locations { get; }
     IReadOnlyList<ProgramExercise> ProgramExercises { get; }
+    IReadOnlyList<Coach> Coaches { get; }
 
     UserProfile? GetUser(Guid id);
     TrainingProgram? GetProgram(Guid id);
@@ -21,4 +22,8 @@ public interface IGymRepository
     BodyMeasurement? GetMeasurement(Guid id);
     GymLocation? GetLocation(Guid id);
     ProgramExercise? GetProgramExercise(Guid id);
+    Coach? GetCoach(Guid id);
+
+    void AddCoach(Coach coach);
+    void UpdateCoach(Coach coach);
 }

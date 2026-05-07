@@ -12,6 +12,7 @@ public class UsersController : Controller
         _repository = repository;
     }
 
+    [HttpGet("korisnici/{activity?}")]
     public IActionResult Index(string activity = "all")
     {
         ViewData["Section"] = "Korisnici";
@@ -30,6 +31,7 @@ public class UsersController : Controller
         return View(users.OrderBy(x => x.LastName).ThenBy(x => x.FirstName));
     }
 
+    [HttpGet("korisnici/detalji/{id:guid}")]
     public IActionResult Details(Guid id)
     {
         var user = _repository.GetUser(id);

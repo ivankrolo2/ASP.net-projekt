@@ -13,6 +13,7 @@ public class ExercisesController : Controller
         _repository = repository;
     }
 
+    [HttpGet("vjezbe/{category?}")]
     public IActionResult Index(string category = "all")
     {
         ViewData["Section"] = "Vjezbe";
@@ -29,6 +30,7 @@ public class ExercisesController : Controller
         return View(exercises.OrderBy(x => x.Name));
     }
 
+    [HttpGet("vjezbe/detalji/{id:guid}")]
     public IActionResult Details(Guid id)
     {
         var exercise = _repository.GetExercise(id);

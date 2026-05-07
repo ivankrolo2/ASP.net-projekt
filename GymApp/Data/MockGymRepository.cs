@@ -12,6 +12,7 @@ public class MockGymRepository : IGymRepository
     private readonly List<BodyMeasurement> _measurements = new();
     private readonly List<GymLocation> _locations = new();
     private readonly List<ProgramExercise> _programExercises = new();
+    private readonly List<Coach> _coaches = new();
 
     public MockGymRepository()
     {
@@ -26,6 +27,7 @@ public class MockGymRepository : IGymRepository
     public IReadOnlyList<BodyMeasurement> Measurements => _measurements;
     public IReadOnlyList<GymLocation> Locations => _locations;
     public IReadOnlyList<ProgramExercise> ProgramExercises => _programExercises;
+    public IReadOnlyList<Coach> Coaches => _coaches;
 
     public UserProfile? GetUser(Guid id) => _users.FirstOrDefault(x => x.Id == id);
     public TrainingProgram? GetProgram(Guid id) => _programs.FirstOrDefault(x => x.Id == id);
@@ -35,6 +37,26 @@ public class MockGymRepository : IGymRepository
     public BodyMeasurement? GetMeasurement(Guid id) => _measurements.FirstOrDefault(x => x.Id == id);
     public GymLocation? GetLocation(Guid id) => _locations.FirstOrDefault(x => x.Id == id);
     public ProgramExercise? GetProgramExercise(Guid id) => _programExercises.FirstOrDefault(x => x.Id == id);
+    public Coach? GetCoach(Guid id) => _coaches.FirstOrDefault(x => x.Id == id);
+
+    public void AddCoach(Coach coach)
+    {
+        _coaches.Add(coach);
+    }
+
+    public void UpdateCoach(Coach coach)
+    {
+        var existing = _coaches.FirstOrDefault(x => x.Id == coach.Id);
+        if (existing is null)
+        {
+            return;
+        }
+
+        existing.FirstName = coach.FirstName;
+        existing.LastName = coach.LastName;
+        existing.Email = coach.Email;
+        existing.Specialty = coach.Specialty;
+    }
 
     private void Seed()
     {
@@ -111,6 +133,36 @@ public class MockGymRepository : IGymRepository
         AddMeasurement(petra, new DateTime(2026, 3, 15), 65.2, 23.3);
         AddMeasurement(luka, new DateTime(2026, 3, 1), 82.0, 21.0);
         AddMeasurement(luka, new DateTime(2026, 3, 15), 80.9, 20.1);
+
+        _coaches.AddRange([
+            new Coach
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "Marko",
+                LastName = "Horvat",
+                Email = "marko.horvat@example.com",
+                Specialty = "Strength",
+                CreatedAt = DateTime.UtcNow
+            },
+            new Coach
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "Ana",
+                LastName = "Simic",
+                Email = "ana.simic@example.com",
+                Specialty = "Hypertrophy",
+                CreatedAt = DateTime.UtcNow
+            },
+            new Coach
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "Luka",
+                LastName = "Kovac",
+                Email = "luka.kovac@example.com",
+                Specialty = "Cardio",
+                CreatedAt = DateTime.UtcNow
+            }
+        ]);
     }
 
     private static Exercise CreateExercise(string name, ExerciseCategory category, string muscle, string equipment, bool isCompound)
