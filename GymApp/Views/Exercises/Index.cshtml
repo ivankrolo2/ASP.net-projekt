@@ -9,27 +9,31 @@
     <h1 class="page-title">Vjezbe</h1>
     <p class="page-subtitle">Katalog vjezbi po kategoriji, opremi i misicnoj skupini.</p>
 
-    <div class="chip-row filter-row">
-        <a class="chip-link @(selected == "all" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="all">Sve</a>
-        <a class="chip-link @(selected == "strength" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="strength">Strength</a>
-        <a class="chip-link @(selected == "hypertrophy" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="hypertrophy">Hypertrophy</a>
-        <a class="chip-link @(selected == "cardio" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="cardio">Cardio</a>
-        <a class="chip-link @(selected == "mobility" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="mobility">Mobility</a>
+    <div class="d-flex align-items-center justify-content-between mt-3">
+        <div class="chip-row filter-row">
+            <a class="chip-link @(selected == "all" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="all">Sve</a>
+            <a class="chip-link @(selected == "strength" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="strength">Strength</a>
+            <a class="chip-link @(selected == "hypertrophy" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="hypertrophy">Hypertrophy</a>
+            <a class="chip-link @(selected == "cardio" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="cardio">Cardio</a>
+            <a class="chip-link @(selected == "mobility" ? "chip-link-active" : string.Empty)" asp-action="Index" asp-route-category="mobility">Mobility</a>
+        </div>
+        <a class="btn-theme-primary" asp-action="Create">+ Nova vjezba</a>
     </div>
 
-    <div class="row-list">
-        @foreach (var exercise in Model)
-        {
-            <a class="data-row" asp-action="Details" asp-route-id="@exercise.Id">
-                <div>
-                    <p class="data-title">@exercise.Name</p>
-                    <p class="data-subtitle">@exercise.PrimaryMuscleGroup • @exercise.Equipment</p>
-                </div>
-                <div class="data-tags">
-                    <span class="tag">@exercise.Category</span>
-                    <span class="tag">@(exercise.IsCompound ? "Compound" : "Isolation")</span>
-                </div>
-            </a>
-        }
+    <div class="search-row">
+        <input class="search-input"
+               type="search"
+               name="q"
+               placeholder="Pretrazi vjezbe"
+               value="@ViewData["Search"]"
+               data-search-input
+               data-search-url="@Url.Action("Search", "Exercises")"
+               data-search-target="exerciseList"
+               data-filter-name="category"
+               data-filter-value="@selected" />
+    </div>
+
+    <div id="exerciseList">
+        @await Html.PartialAsync("_List", Model)
     </div>
 </section>

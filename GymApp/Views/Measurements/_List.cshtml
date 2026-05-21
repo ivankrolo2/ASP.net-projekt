@@ -1,0 +1,28 @@
+@model IEnumerable<BodyMeasurement>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Nema mjerenja za zadani filter.</p>
+}
+else
+{
+    <div class="row-list">
+        @foreach (var measurement in Model)
+        {
+            <div class="data-row">
+                <div>
+                    <p class="data-title">
+                        <a class="data-link" asp-action="Details" asp-route-id="@measurement.Id">@measurement.User?.FirstName @measurement.User?.LastName</a>
+                    </p>
+                    <p class="data-subtitle">@measurement.RecordedAt.ToString("dd.MM.yyyy")</p>
+                </div>
+                <div class="data-tags">
+                    <span class="tag">@measurement.BodyWeightKg.ToString("F1") kg</span>
+                    <span class="tag">@measurement.BodyFatPercentage.ToString("F1")% BF</span>
+                    <a class="action-link" asp-action="Edit" asp-route-id="@measurement.Id">Uredi</a>
+                    <a class="action-link" asp-action="Delete" asp-route-id="@measurement.Id">Obrisi</a>
+                </div>
+            </div>
+        }
+    </div>
+}

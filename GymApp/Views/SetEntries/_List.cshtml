@@ -1,0 +1,28 @@
+@model IEnumerable<SetEntry>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Nema setova za zadani filter.</p>
+}
+else
+{
+    <div class="row-list">
+        @foreach (var set in Model)
+        {
+            <div class="data-row">
+                <div>
+                    <p class="data-title">
+                        <a class="data-link" asp-action="Details" asp-route-id="@set.Id">@set.Exercise?.Name (Set @set.SetNumber)</a>
+                    </p>
+                    <p class="data-subtitle">@set.Session?.User?.FirstName @set.Session?.User?.LastName • @set.Session?.SessionDate.ToString("dd.MM.yyyy")</p>
+                </div>
+                <div class="data-tags">
+                    <span class="tag">@set.Repetitions reps</span>
+                    <span class="tag">@set.WeightKg.ToString("F1") kg</span>
+                    <a class="action-link" asp-action="Edit" asp-route-id="@set.Id">Uredi</a>
+                    <a class="action-link" asp-action="Delete" asp-route-id="@set.Id">Obrisi</a>
+                </div>
+            </div>
+        }
+    </div>
+}

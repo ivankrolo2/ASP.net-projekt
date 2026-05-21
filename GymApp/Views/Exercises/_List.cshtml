@@ -1,0 +1,28 @@
+@model IEnumerable<Exercise>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Nema vjezbi za zadani filter.</p>
+}
+else
+{
+    <div class="row-list">
+        @foreach (var exercise in Model)
+        {
+            <div class="data-row">
+                <div>
+                    <p class="data-title">
+                        <a class="data-link" asp-action="Details" asp-route-id="@exercise.Id">@exercise.Name</a>
+                    </p>
+                    <p class="data-subtitle">@exercise.PrimaryMuscleGroup • @exercise.Equipment</p>
+                </div>
+                <div class="data-tags">
+                    <span class="tag">@exercise.Category</span>
+                    <span class="tag">@(exercise.IsCompound ? "Compound" : "Isolation")</span>
+                    <a class="action-link" asp-action="Edit" asp-route-id="@exercise.Id">Uredi</a>
+                    <a class="action-link" asp-action="Delete" asp-route-id="@exercise.Id">Obrisi</a>
+                </div>
+            </div>
+        }
+    </div>
+}

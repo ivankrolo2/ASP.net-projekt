@@ -1,0 +1,28 @@
+@model IEnumerable<ProgramExercise>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Nema relacija za zadani filter.</p>
+}
+else
+{
+    <div class="row-list">
+        @foreach (var relation in Model)
+        {
+            <div class="data-row">
+                <div>
+                    <p class="data-title">
+                        <a class="data-link" asp-action="Details" asp-route-id="@relation.Id">@relation.Program?.Name</a>
+                    </p>
+                    <p class="data-subtitle">Dan @relation.DayOfWeek • @relation.Exercise?.Name</p>
+                </div>
+                <div class="data-tags">
+                    <span class="tag">@relation.TargetSets setova</span>
+                    <span class="tag">@relation.TargetReps reps</span>
+                    <a class="action-link" asp-action="Edit" asp-route-id="@relation.Id">Uredi</a>
+                    <a class="action-link" asp-action="Delete" asp-route-id="@relation.Id">Obrisi</a>
+                </div>
+            </div>
+        }
+    </div>
+}

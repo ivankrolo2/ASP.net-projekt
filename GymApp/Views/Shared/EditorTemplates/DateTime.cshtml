@@ -1,0 +1,47 @@
+@model DateTime?
+
+@{
+    var fieldId = ViewData.TemplateInfo.GetFullHtmlFieldId("");
+    var displayId = $"{fieldId}_display";
+}
+
+<div class="date-time-picker" data-date-time-picker>
+    <input type="text"
+           id="@displayId"
+           class="form-control date-time-display"
+           placeholder="Odaberi datum i vrijeme"
+           autocomplete="off"
+           readonly
+           data-date-time-display
+           data-date-time-target="@fieldId" />
+
+    @Html.TextBoxFor(m => m, "{0:yyyy-MM-ddTHH:mm}", new
+    {
+        @class = "date-time-value validate-hidden",
+        type = "hidden",
+        data_date_time_value = "true",
+        id = fieldId
+    })
+
+    <div class="date-time-panel" data-date-time-panel>
+        <div class="date-time-header">
+            <button type="button" class="date-time-nav" data-date-time-prev aria-label="Previous month">&#8249;</button>
+            <div class="date-time-title" data-date-time-title></div>
+            <button type="button" class="date-time-nav" data-date-time-next aria-label="Next month">&#8250;</button>
+        </div>
+        <div class="date-time-weekdays" data-date-time-weekdays></div>
+        <div class="date-time-grid" data-date-time-grid></div>
+        <div class="date-time-footer">
+            <div class="date-time-time">
+                <input type="number" class="form-control date-time-input" data-date-time-hour min="0" max="23" />
+                <span>:</span>
+                <input type="number" class="form-control date-time-input" data-date-time-minute min="0" max="59" />
+            </div>
+            <div class="date-time-actions">
+                <button type="button" class="btn-theme-secondary" data-date-time-today>Danas</button>
+                <button type="button" class="btn-theme-secondary" data-date-time-clear>Ocisti</button>
+                <button type="button" class="btn-theme-primary" data-date-time-apply>Primijeni</button>
+            </div>
+        </div>
+    </div>
+</div>

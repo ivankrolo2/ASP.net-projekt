@@ -122,6 +122,198 @@ public class EfGymRepository : IGymRepository
         .AsNoTracking()
         .FirstOrDefault(x => x.Id == id);
 
+    public void AddUser(UserProfile user)
+    {
+        _context.Users.Add(user);
+        _context.SaveChanges();
+    }
+
+    public void UpdateUser(UserProfile user)
+    {
+        _context.Users.Update(user);
+        _context.SaveChanges();
+    }
+
+    public void DeleteUser(Guid id)
+    {
+        var user = _context.Users.FirstOrDefault(x => x.Id == id);
+        if (user is null)
+        {
+            return;
+        }
+
+        _context.Users.Remove(user);
+        _context.SaveChanges();
+    }
+
+    public void AddProgram(TrainingProgram program)
+    {
+        _context.Programs.Add(program);
+        _context.SaveChanges();
+    }
+
+    public void UpdateProgram(TrainingProgram program)
+    {
+        _context.Programs.Update(program);
+        _context.SaveChanges();
+    }
+
+    public void DeleteProgram(Guid id)
+    {
+        var program = _context.Programs.FirstOrDefault(x => x.Id == id);
+        if (program is null)
+        {
+            return;
+        }
+
+        _context.Programs.Remove(program);
+        _context.SaveChanges();
+    }
+
+    public void AddExercise(Exercise exercise)
+    {
+        _context.Exercises.Add(exercise);
+        _context.SaveChanges();
+    }
+
+    public void UpdateExercise(Exercise exercise)
+    {
+        _context.Exercises.Update(exercise);
+        _context.SaveChanges();
+    }
+
+    public void DeleteExercise(Guid id)
+    {
+        var exercise = _context.Exercises.FirstOrDefault(x => x.Id == id);
+        if (exercise is null)
+        {
+            return;
+        }
+
+        _context.Exercises.Remove(exercise);
+        _context.SaveChanges();
+    }
+
+    public void AddSession(WorkoutSession session)
+    {
+        _context.Sessions.Add(session);
+        _context.SaveChanges();
+    }
+
+    public void UpdateSession(WorkoutSession session)
+    {
+        _context.Sessions.Update(session);
+        _context.SaveChanges();
+    }
+
+    public void DeleteSession(Guid id)
+    {
+        var session = _context.Sessions.FirstOrDefault(x => x.Id == id);
+        if (session is null)
+        {
+            return;
+        }
+
+        _context.Sessions.Remove(session);
+        _context.SaveChanges();
+    }
+
+    public void AddSetEntry(SetEntry setEntry)
+    {
+        _context.SetEntries.Add(setEntry);
+        _context.SaveChanges();
+    }
+
+    public void UpdateSetEntry(SetEntry setEntry)
+    {
+        _context.SetEntries.Update(setEntry);
+        _context.SaveChanges();
+    }
+
+    public void DeleteSetEntry(Guid id)
+    {
+        var setEntry = _context.SetEntries.FirstOrDefault(x => x.Id == id);
+        if (setEntry is null)
+        {
+            return;
+        }
+
+        _context.SetEntries.Remove(setEntry);
+        _context.SaveChanges();
+    }
+
+    public void AddMeasurement(BodyMeasurement measurement)
+    {
+        _context.Measurements.Add(measurement);
+        _context.SaveChanges();
+    }
+
+    public void UpdateMeasurement(BodyMeasurement measurement)
+    {
+        _context.Measurements.Update(measurement);
+        _context.SaveChanges();
+    }
+
+    public void DeleteMeasurement(Guid id)
+    {
+        var measurement = _context.Measurements.FirstOrDefault(x => x.Id == id);
+        if (measurement is null)
+        {
+            return;
+        }
+
+        _context.Measurements.Remove(measurement);
+        _context.SaveChanges();
+    }
+
+    public void AddLocation(GymLocation location)
+    {
+        _context.Locations.Add(location);
+        _context.SaveChanges();
+    }
+
+    public void UpdateLocation(GymLocation location)
+    {
+        _context.Locations.Update(location);
+        _context.SaveChanges();
+    }
+
+    public void DeleteLocation(Guid id)
+    {
+        var location = _context.Locations.FirstOrDefault(x => x.Id == id);
+        if (location is null)
+        {
+            return;
+        }
+
+        _context.Locations.Remove(location);
+        _context.SaveChanges();
+    }
+
+    public void AddProgramExercise(ProgramExercise programExercise)
+    {
+        _context.ProgramExercises.Add(programExercise);
+        _context.SaveChanges();
+    }
+
+    public void UpdateProgramExercise(ProgramExercise programExercise)
+    {
+        _context.ProgramExercises.Update(programExercise);
+        _context.SaveChanges();
+    }
+
+    public void DeleteProgramExercise(Guid id)
+    {
+        var programExercise = _context.ProgramExercises.FirstOrDefault(x => x.Id == id);
+        if (programExercise is null)
+        {
+            return;
+        }
+
+        _context.ProgramExercises.Remove(programExercise);
+        _context.SaveChanges();
+    }
+
     public void AddCoach(Coach coach)
     {
         _context.Coaches.Add(coach);
@@ -131,6 +323,18 @@ public class EfGymRepository : IGymRepository
     public void UpdateCoach(Coach coach)
     {
         _context.Coaches.Update(coach);
+        _context.SaveChanges();
+    }
+
+    public void DeleteCoach(Guid id)
+    {
+        var coach = _context.Coaches.FirstOrDefault(x => x.Id == id);
+        if (coach is null)
+        {
+            return;
+        }
+
+        _context.Coaches.Remove(coach);
         _context.SaveChanges();
     }
 }

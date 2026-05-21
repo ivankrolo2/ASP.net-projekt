@@ -1,0 +1,28 @@
+@model IEnumerable<UserProfile>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Nema korisnika za zadani filter.</p>
+}
+else
+{
+    <div class="row-list">
+        @foreach (var user in Model)
+        {
+            <div class="data-row">
+                <div>
+                    <p class="data-title">
+                        <a class="data-link" asp-action="Details" asp-route-id="@user.Id">@user.FirstName @user.LastName</a>
+                    </p>
+                    <p class="data-subtitle">@user.Email</p>
+                </div>
+                <div class="data-tags">
+                    <span class="tag">@user.Sessions.Count treninga</span>
+                    <span class="tag">@user.Programs.Count programa</span>
+                    <a class="action-link" asp-action="Edit" asp-route-id="@user.Id">Uredi</a>
+                    <a class="action-link" asp-action="Delete" asp-route-id="@user.Id">Obrisi</a>
+                </div>
+            </div>
+        }
+    </div>
+}

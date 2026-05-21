@@ -9,42 +9,17 @@
     <a class="btn-theme-primary" asp-controller="Coaches" asp-action="Create">+ Novi trener</a>
 </div>
 
-<div class="surface-card">
-    @if (!Model.Any())
-    {
-        <div class="empty-state text-center py-5">
-            <p class="text-muted mb-3">Trenutno nema dodanih trenera.</p>
-            <a class="btn-theme-primary" asp-controller="Coaches" asp-action="Create">Dodaj prvog trenera</a>
-        </div>
-    }
-    else
-    {
-        <div class="table-responsive">
-            <table class="theme-table">
-                <thead>
-                    <tr>
-                        <th>Ime</th>
-                        <th>Prezime</th>
-                        <th>Email</th>
-                        <th>Specijalnost</th>
-                        <th class="text-end">Akcije</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach (var coach in Model)
-                {
-                    <tr>
-                        <td class="fw-bold">@coach.FirstName</td>
-                        <td class="fw-bold">@coach.LastName</td>
-                        <td class="text-muted">@coach.Email</td>
-                        <td><span class="badge-specialty">@coach.Specialty</span></td>
-                        <td class="text-end">
-                            <a class="action-link" asp-controller="Coaches" asp-action="Edit" asp-route-id="@coach.Id">Uredi</a>
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-        </div>
-    }
+<div class="search-row">
+    <input class="search-input"
+           type="search"
+           name="q"
+           placeholder="Pretrazi trenere"
+           value="@ViewData["Search"]"
+           data-search-input
+           data-search-url="@Url.Action("Search", "Coaches")"
+           data-search-target="coachList" />
+</div>
+
+<div id="coachList">
+    @await Html.PartialAsync("_List", Model)
 </div>

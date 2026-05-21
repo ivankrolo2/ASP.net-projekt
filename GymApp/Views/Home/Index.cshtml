@@ -4,7 +4,7 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<section class="hero-panel">
+<section class="hero-panel reveal" data-animate>
     <p class="eyebrow">GymApp Data Hub</p>
     <h1 class="outline-heading">TRACK. LIFT. REPEAT.</h1>
     <p class="hero-copy">Read-only pregled svih entiteta i relacija iz mock repozitorija. Otvori bilo koji modul i istrazi podatke kroz liste i detalje.</p>
@@ -17,26 +17,26 @@
     </div>
 </section>
 
-<section class="stats-grid">
+<section class="stats-grid reveal" data-animate>
     <article class="stat-card">
         <p class="stat-label">Korisnici</p>
-        <p class="stat-value">@Model.UsersCount</p>
+        <p class="stat-value" data-count="@Model.UsersCount">0</p>
     </article>
     <article class="stat-card">
         <p class="stat-label">Programi</p>
-        <p class="stat-value">@Model.ProgramsCount</p>
+        <p class="stat-value" data-count="@Model.ProgramsCount">0</p>
     </article>
     <article class="stat-card">
         <p class="stat-label">Treninzi</p>
-        <p class="stat-value">@Model.SessionsCount</p>
+        <p class="stat-value" data-count="@Model.SessionsCount">0</p>
     </article>
     <article class="stat-card">
         <p class="stat-label">Vjezbe</p>
-        <p class="stat-value">@Model.ExercisesCount</p>
+        <p class="stat-value" data-count="@Model.ExercisesCount">0</p>
     </article>
 </section>
 
-<section class="split-grid">
+<section class="split-grid reveal" data-animate>
     <article class="surface-panel">
         <header class="panel-header">
             <h2>Zadnji treninzi</h2>
@@ -70,7 +70,7 @@
                         <p class="data-subtitle">@exercise.SetCount setova</p>
                     </div>
                     <div class="progress-pill">
-                        <span style="width: @(Math.Min(exercise.RepetitionCount, 120) * 100 / 120)%"></span>
+                        <span data-progress="@(Math.Min(exercise.RepetitionCount, 120) * 100 / 120)"></span>
                     </div>
                 </div>
             }

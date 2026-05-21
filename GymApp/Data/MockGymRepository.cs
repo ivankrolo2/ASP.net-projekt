@@ -39,6 +39,282 @@ public class MockGymRepository : IGymRepository
     public ProgramExercise? GetProgramExercise(Guid id) => _programExercises.FirstOrDefault(x => x.Id == id);
     public Coach? GetCoach(Guid id) => _coaches.FirstOrDefault(x => x.Id == id);
 
+    public void AddUser(UserProfile user)
+    {
+        _users.Add(user);
+    }
+
+    public void UpdateUser(UserProfile user)
+    {
+        var existing = _users.FirstOrDefault(x => x.Id == user.Id);
+        if (existing is null)
+        {
+            return;
+        }
+
+        existing.FirstName = user.FirstName;
+        existing.LastName = user.LastName;
+        existing.Email = user.Email;
+        existing.DateOfBirth = user.DateOfBirth;
+        existing.HeightCm = user.HeightCm;
+        existing.WeightKg = user.WeightKg;
+    }
+
+    public void DeleteUser(Guid id)
+    {
+        var user = _users.FirstOrDefault(x => x.Id == id);
+        if (user is null)
+        {
+            return;
+        }
+
+        _measurements.RemoveAll(x => x.User?.Id == id || x.UserId == id);
+        _sessions.RemoveAll(x => x.User?.Id == id || x.UserId == id);
+        _setEntries.RemoveAll(x => x.Session?.User?.Id == id);
+        _users.Remove(user);
+    }
+
+    public void AddProgram(TrainingProgram program)
+    {
+        _programs.Add(program);
+    }
+
+    public void UpdateProgram(TrainingProgram program)
+    {
+        var existing = _programs.FirstOrDefault(x => x.Id == program.Id);
+        if (existing is null)
+        {
+            return;
+        }
+
+        existing.Name = program.Name;
+        existing.Goal = program.Goal;
+        existing.Weeks = program.Weeks;
+        existing.IsActive = program.IsActive;
+        existing.Difficulty = program.Difficulty;
+        existing.CoachName = program.CoachName;
+    }
+
+    public void DeleteProgram(Guid id)
+    {
+        var program = _programs.FirstOrDefault(x => x.Id == id);
+        if (program is null)
+        {
+            return;
+        }
+
+        _programExercises.RemoveAll(x => x.Program?.Id == id || x.TrainingProgramId == id);
+        _sessions.RemoveAll(x => x.Program?.Id == id || x.ProgramId == id);
+        _programs.Remove(program);
+    }
+
+    public void AddExercise(Exercise exercise)
+    {
+        _exercises.Add(exercise);
+    }
+
+    public void UpdateExercise(Exercise exercise)
+    {
+        var existing = _exercises.FirstOrDefault(x => x.Id == exercise.Id);
+        if (existing is null)
+        {
+            return;
+        }
+
+        existing.Name = exercise.Name;
+        existing.Description = exercise.Description;
+        existing.Category = exercise.Category;
+        existing.PrimaryMuscleGroup = exercise.PrimaryMuscleGroup;
+        existing.Equipment = exercise.Equipment;
+        existing.IsCompound = exercise.IsCompound;
+    }
+
+    public void DeleteExercise(Guid id)
+    {
+        var exercise = _exercises.FirstOrDefault(x => x.Id == id);
+        if (exercise is null)
+        {
+            return;
+        }
+
+        _programExercises.RemoveAll(x => x.Exercise?.Id == id || x.ExerciseId == id);
+        _setEntries.RemoveAll(x => x.Exercise?.Id == id || x.ExerciseId == id);
+        _exercises.Remove(exercise);
+    }
+
+    public void AddSession(WorkoutSession session)
+    {
+        session.User = _users.FirstOrDefault(x => x.Id == session.UserId) ?? session.User;
+        session.Program = _programs.FirstOrDefault(x => x.Id == session.ProgramId) ?? session.Program;
+        session.GymLocation = _locations.FirstOrDefault(x => x.Id == session.GymLocationId) ?? session.GymLocation;
+        _sessions.Add(session);
+    }
+
+    public void UpdateSession(WorkoutSession session)
+    {
+        var existing = _sessions.FirstOrDefault(x => x.Id == session.Id);
+        if (existing is null)
+        {
+            return;
+        }
+
+        existing.UserId = session.UserId;
+        existing.ProgramId = session.ProgramId;
+        existing.GymLocationId = session.GymLocationId;
+        existing.User = _users.FirstOrDefault(x => x.Id == session.UserId);
+        existing.Program = session.ProgramId.HasValue ? _programs.FirstOrDefault(x => x.Id == session.ProgramId) : null;
+        existing.GymLocation = session.GymLocationId.HasValue ? _locations.FirstOrDefault(x => x.Id == session.GymLocationId) : null;
+        existing.SessionDate = session.SessionDate;
+        existing.DurationMinutes = session.DurationMinutes;
+        existing.Notes = session.Notes;
+        existing.Rating = session.Rating;
+        existing.TotalVolumeKg = session.TotalVolumeKg;
+    }
+
+    public void DeleteSession(Guid id)
+    {
+        var session = _sessions.FirstOrDefault(x => x.Id == id);
+        if (session is null)
+        {
+            return;
+        }
+
+        _setEntries.RemoveAll(x => x.Session?.Id == id || x.WorkoutSessionId == id);
+        _sessions.Remove(session);
+    }
+
+    public void AddSetEntry(SetEntry setEntry)
+    {
+        setEntry.Session = _sessions.FirstOrDefault(x => x.Id == setEntry.WorkoutSessionId) ?? setEntry.Session;
+        setEntry.Exercise = _exercises.FirstOrDefault(x => x.Id == setEntry.ExerciseId) ?? setEntry.Exercise;
+        _setEntries.Add(setEntry);
+    }
+
+    public void UpdateSetEntry(SetEntry setEntry)
+    {
+        var existing = _setEntries.FirstOrDefault(x => x.Id == setEntry.Id);
+        if (existing is null)
+        {
+            return;
+        }
+
+        existing.WorkoutSessionId = setEntry.WorkoutSessionId;
+        existing.ExerciseId = setEntry.ExerciseId;
+        existing.Session = _sessions.FirstOrDefault(x => x.Id == setEntry.WorkoutSessionId);
+        existing.Exercise = _exercises.FirstOrDefault(x => x.Id == setEntry.ExerciseId);
+        existing.SetNumber = setEntry.SetNumber;
+        existing.Repetitions = setEntry.Repetitions;
+        existing.WeightKg = setEntry.WeightKg;
+    }
+
+    public void DeleteSetEntry(Guid id)
+    {
+        var setEntry = _setEntries.FirstOrDefault(x => x.Id == id);
+        if (setEntry is null)
+        {
+            return;
+        }
+
+        _setEntries.Remove(setEntry);
+    }
+
+    public void AddMeasurement(BodyMeasurement measurement)
+    {
+        measurement.User = _users.FirstOrDefault(x => x.Id == measurement.UserId) ?? measurement.User;
+        _measurements.Add(measurement);
+    }
+
+    public void UpdateMeasurement(BodyMeasurement measurement)
+    {
+        var existing = _measurements.FirstOrDefault(x => x.Id == measurement.Id);
+        if (existing is null)
+        {
+            return;
+        }
+
+        existing.UserId = measurement.UserId;
+        existing.User = _users.FirstOrDefault(x => x.Id == measurement.UserId);
+        existing.RecordedAt = measurement.RecordedAt;
+        existing.BodyWeightKg = measurement.BodyWeightKg;
+        existing.BodyFatPercentage = measurement.BodyFatPercentage;
+    }
+
+    public void DeleteMeasurement(Guid id)
+    {
+        var measurement = _measurements.FirstOrDefault(x => x.Id == id);
+        if (measurement is null)
+        {
+            return;
+        }
+
+        _measurements.Remove(measurement);
+    }
+
+    public void AddLocation(GymLocation location)
+    {
+        _locations.Add(location);
+    }
+
+    public void UpdateLocation(GymLocation location)
+    {
+        var existing = _locations.FirstOrDefault(x => x.Id == location.Id);
+        if (existing is null)
+        {
+            return;
+        }
+
+        existing.Name = location.Name;
+        existing.City = location.City;
+        existing.Capacity = location.Capacity;
+    }
+
+    public void DeleteLocation(Guid id)
+    {
+        var location = _locations.FirstOrDefault(x => x.Id == id);
+        if (location is null)
+        {
+            return;
+        }
+
+        _sessions.RemoveAll(x => x.GymLocation?.Id == id || x.GymLocationId == id);
+        _locations.Remove(location);
+    }
+
+    public void AddProgramExercise(ProgramExercise programExercise)
+    {
+        programExercise.Program = _programs.FirstOrDefault(x => x.Id == programExercise.TrainingProgramId) ?? programExercise.Program;
+        programExercise.Exercise = _exercises.FirstOrDefault(x => x.Id == programExercise.ExerciseId) ?? programExercise.Exercise;
+        _programExercises.Add(programExercise);
+    }
+
+    public void UpdateProgramExercise(ProgramExercise programExercise)
+    {
+        var existing = _programExercises.FirstOrDefault(x => x.Id == programExercise.Id);
+        if (existing is null)
+        {
+            return;
+        }
+
+        existing.TrainingProgramId = programExercise.TrainingProgramId;
+        existing.ExerciseId = programExercise.ExerciseId;
+        existing.Program = _programs.FirstOrDefault(x => x.Id == programExercise.TrainingProgramId);
+        existing.Exercise = _exercises.FirstOrDefault(x => x.Id == programExercise.ExerciseId);
+        existing.DayOfWeek = programExercise.DayOfWeek;
+        existing.TargetSets = programExercise.TargetSets;
+        existing.TargetReps = programExercise.TargetReps;
+    }
+
+    public void DeleteProgramExercise(Guid id)
+    {
+        var programExercise = _programExercises.FirstOrDefault(x => x.Id == id);
+        if (programExercise is null)
+        {
+            return;
+        }
+
+        _programExercises.Remove(programExercise);
+    }
+
     public void AddCoach(Coach coach)
     {
         _coaches.Add(coach);
@@ -56,6 +332,17 @@ public class MockGymRepository : IGymRepository
         existing.LastName = coach.LastName;
         existing.Email = coach.Email;
         existing.Specialty = coach.Specialty;
+    }
+
+    public void DeleteCoach(Guid id)
+    {
+        var coach = _coaches.FirstOrDefault(x => x.Id == id);
+        if (coach is null)
+        {
+            return;
+        }
+
+        _coaches.Remove(coach);
     }
 
     private void Seed()
@@ -215,6 +502,8 @@ public class MockGymRepository : IGymRepository
         var link = new ProgramExercise
         {
             Id = Guid.NewGuid(),
+            TrainingProgramId = program.Id,
+            ExerciseId = exercise.Id,
             Program = program,
             Exercise = exercise,
             DayOfWeek = dayOfWeek,
@@ -232,6 +521,9 @@ public class MockGymRepository : IGymRepository
         var session = new WorkoutSession
         {
             Id = Guid.NewGuid(),
+            UserId = user.Id,
+            ProgramId = program.Id,
+            GymLocationId = gym.Id,
             User = user,
             Program = program,
             GymLocation = gym,
@@ -251,6 +543,8 @@ public class MockGymRepository : IGymRepository
         var entry = new SetEntry
         {
             Id = Guid.NewGuid(),
+            WorkoutSessionId = session.Id,
+            ExerciseId = exercise.Id,
             Session = session,
             Exercise = exercise,
             SetNumber = setNo,
@@ -268,6 +562,7 @@ public class MockGymRepository : IGymRepository
         var measurement = new BodyMeasurement
         {
             Id = Guid.NewGuid(),
+            UserId = user.Id,
             User = user,
             RecordedAt = date,
             BodyWeightKg = Round2(weight),

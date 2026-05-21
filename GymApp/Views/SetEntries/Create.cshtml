@@ -1,0 +1,50 @@
+@model SetEntry
+
+@{
+    ViewData["Title"] = ViewData["PageTitle"] ?? "Novi set";
+    var sessions = (SelectList)ViewData["Sessions"]!;
+    var exercises = (SelectList)ViewData["Exercises"]!;
+}
+
+<section class="page-panel">
+    <h1 class="page-title">@ViewData["PageTitle"]</h1>
+
+    <form asp-action="Create" method="post" class="mt-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="WorkoutSessionId" class="form-label">Trening</label>
+            <select asp-for="WorkoutSessionId" asp-items="sessions" class="form-select"></select>
+            <span asp-validation-for="WorkoutSessionId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ExerciseId" class="form-label">Vjezba</label>
+            <select asp-for="ExerciseId" asp-items="exercises" class="form-select"></select>
+            <span asp-validation-for="ExerciseId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="SetNumber" class="form-label"></label>
+            <input asp-for="SetNumber" class="form-control" type="number" min="1" />
+            <span asp-validation-for="SetNumber" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Repetitions" class="form-label"></label>
+            <input asp-for="Repetitions" class="form-control" type="number" min="1" />
+            <span asp-validation-for="Repetitions" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="WeightKg" class="form-label"></label>
+            <input asp-for="WeightKg" class="form-control" type="number" step="0.1" min="0" />
+            <span asp-validation-for="WeightKg" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn-theme-primary">Spremi</button>
+            <a class="btn-theme-secondary" asp-action="Index">Odustani</a>
+        </div>
+    </form>
+</section>

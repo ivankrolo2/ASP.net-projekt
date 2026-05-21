@@ -7,7 +7,11 @@
 <section class="detail-shell">
     <header class="detail-header">
         <h1>Trening @Model.SessionDate.ToString("dd.MM.yyyy")</h1>
-        <a class="chip-link" asp-action="Index">Natrag na listu</a>
+        <div class="d-flex gap-2">
+            <a class="btn-theme-secondary" asp-action="Index">Natrag na listu</a>
+            <a class="btn-theme-primary" asp-action="Edit" asp-route-id="@Model.Id">Uredi</a>
+            <a class="btn-theme-secondary" asp-action="Delete" asp-route-id="@Model.Id">Obrisi</a>
+        </div>
     </header>
 
     <div class="detail-grid">

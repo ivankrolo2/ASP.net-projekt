@@ -1,0 +1,28 @@
+@model IEnumerable<WorkoutSession>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Nema treninga za zadani filter.</p>
+}
+else
+{
+    <div class="row-list">
+        @foreach (var session in Model)
+        {
+            <div class="data-row">
+                <div>
+                    <p class="data-title">
+                        <a class="data-link" asp-action="Details" asp-route-id="@session.Id">@session.User?.FirstName @session.User?.LastName</a>
+                    </p>
+                    <p class="data-subtitle">@session.Program?.Name • @session.SessionDate.ToString("dd.MM.yyyy")</p>
+                </div>
+                <div class="data-tags">
+                    <span class="tag">@session.DurationMinutes min</span>
+                    <span class="tag">@session.TotalVolumeKg.ToString("F1") kg</span>
+                    <a class="action-link" asp-action="Edit" asp-route-id="@session.Id">Uredi</a>
+                    <a class="action-link" asp-action="Delete" asp-route-id="@session.Id">Obrisi</a>
+                </div>
+            </div>
+        }
+    </div>
+}

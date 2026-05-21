@@ -14,17 +14,28 @@ public class CoachesController : Controller
     }
 
     [HttpGet("treneri")]
-    public IActionResult Index()
+    public IActionResult Index(string q = "")
     {
         ViewData["Section"] = "Treneri";
         ViewData["SectionController"] = "Coaches";
         ViewData["PageTitle"] = "Lista trenera";
+        ViewData["Search"] = q;
 
-        var coaches = _repository.Coaches
+        var coaches = FilterCoaches(q)
             .OrderBy(x => x.LastName)
             .ThenBy(x => x.FirstName);
 
         return View(coaches);
+    }
+
+    [HttpGet("treneri/pretraga")]
+    public IActionResult Search(string q = "")
+    {
+        var coaches = FilterCoaches(q)
+            .OrderBy(x => x.LastName)
+            .ThenBy(x => x.FirstName);
+
+        return PartialView("_List", coaches);
     }
 
     [HttpGet("treneri/novi")]
@@ -98,5 +109,65 @@ public class CoachesController : Controller
 
         _repository.UpdateCoach(existing);
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet("treneri/detalji/{id:guid}")]
+    public IActionResult Details(Guid id)
+    {
+        var coach = _repository.GetCoach(id);
+        if (coach is null)
+        {
+            return NotFound();
+        }
+
+        ViewData["Section"] = "Treneri";
+        ViewData["SectionController"] = "Coaches";
+        ViewData["PageTitle"] = $"Detalji: {coach.FirstName} {coach.LastName}";
+        return View(coach);
+    }
+
+    [HttpGet("treneri/obrisi/{id:guid}")]
+    public IActionResult Delete(Guid id)
+    {
+        var coach = _repository.GetCoach(id);
+        if (coach is null)
+        {
+            return NotFound();
+        }
+
+        ViewData["Section"] = "Treneri";
+        ViewData["SectionController"] = "Coaches";
+        ViewData["PageTitle"] = $"Obrisi: {coach.FirstName} {coach.LastName}";
+        return View(coach);
+    }
+
+    [HttpPost("treneri/obrisi/{id:guid}")]
+    [ValidateAntiForgeryToken]
+    public IActionResult DeleteConfirmed(Guid id)
+    {
+        var coach = _repository.GetCoach(id);
+        if (coach is null)
+        {
+            return NotFound();
+        }
+
+        _repository.DeleteCoach(id);
+        return RedirectToAction(nameof(Index));
+    }
+
+    private IEnumerable<Coach> FilterCoaches(string q)
+    {
+        var coaches = _repository.Coaches.AsEnumerable();
+        if (!string.IsNullOrWhiteSpace(q))
+        {
+            var query = q.Trim();
+            coaches = coaches.Where(x =>
+                x.FirstName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                x.LastName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                x.Email.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                x.Specialty.Contains(query, StringComparison.OrdinalIgnoreCase));
+        }
+
+        return coaches;
     }
 }

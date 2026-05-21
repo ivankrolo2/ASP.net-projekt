@@ -1,0 +1,27 @@
+@model IEnumerable<GymLocation>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Nema lokacija za zadani filter.</p>
+}
+else
+{
+    <div class="row-list">
+        @foreach (var location in Model)
+        {
+            <div class="data-row">
+                <div>
+                    <p class="data-title">
+                        <a class="data-link" asp-action="Details" asp-route-id="@location.Id">@location.Name</a>
+                    </p>
+                    <p class="data-subtitle">@location.City</p>
+                </div>
+                <div class="data-tags">
+                    <span class="tag">Kapacitet @location.Capacity</span>
+                    <a class="action-link" asp-action="Edit" asp-route-id="@location.Id">Uredi</a>
+                    <a class="action-link" asp-action="Delete" asp-route-id="@location.Id">Obrisi</a>
+                </div>
+            </div>
+        }
+    </div>
+}
