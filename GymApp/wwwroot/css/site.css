@@ -567,6 +567,14 @@ textarea.form-control:focus {
   gap: 6px;
 }
 
+.date-time-year-row {
+  margin-bottom: 8px;
+}
+
+.date-time-year {
+  width: 100%;
+}
+
 .date-time-weekday {
   text-align: center;
   font-size: 0.78rem;
@@ -599,6 +607,10 @@ textarea.form-control:focus {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+
+.date-time-picker[data-date-time-mode="date"] [data-date-time-time] {
+  display: none;
 }
 
 .date-time-time {

@@ -196,6 +196,14 @@ const formatDisplay = (date, locale) => {
 	return `${datePart} ${timePart}`;
 };
 
+const formatDisplayDate = (date, locale) => {
+	return new Intl.DateTimeFormat(locale, {
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit"
+	}).format(date);
+};
+
 const parseHiddenValue = (value) => {
 	if (!value) {
 		return null;
@@ -263,7 +271,7 @@ const updateTitle = (title, date, locale) => {
 	}).format(date);
 };
 
-const updateDisplay = (display, hidden, date, locale) => {
+const updateDisplay = (display, hidden, date, locale, isDateOnly) => {
 	if (!date) {
 		display.value = "";
 		hidden.value = "";
@@ -273,7 +281,19 @@ const updateDisplay = (display, hidden, date, locale) => {
 		.toISOString()
 		.slice(0, 16);
 	hidden.value = iso;
-	display.value = formatDisplay(date, locale);
+	display.value = isDateOnly ? formatDisplayDate(date, locale) : formatDisplay(date, locale);
+};
+
+const buildYearOptions = (select, currentYear, range) => {
+	select.innerHTML = "";
+	const start = currentYear - range;
+	const end = currentYear + 1;
+	for (let year = end; year >= start; year -= 1) {
+		const option = document.createElement("option");
+		option.value = year.toString();
+		option.textContent = year.toString();
+		select.appendChild(option);
+	}
 };
 
 dateTimePickers.forEach((picker) => {
@@ -283,6 +303,7 @@ dateTimePickers.forEach((picker) => {
 	const title = picker.querySelector("[data-date-time-title]");
 	const weekdays = picker.querySelector("[data-date-time-weekdays]");
 	const grid = picker.querySelector("[data-date-time-grid]");
+	const yearSelect = picker.querySelector("[data-date-time-year]");
 	const hourInput = picker.querySelector("[data-date-time-hour]");
 	const minuteInput = picker.querySelector("[data-date-time-minute]");
 	const prevBtn = picker.querySelector("[data-date-time-prev]");
@@ -291,8 +312,9 @@ dateTimePickers.forEach((picker) => {
 	const clearBtn = picker.querySelector("[data-date-time-clear]");
 	const applyBtn = picker.querySelector("[data-date-time-apply]");
 	const locale = getLocale();
+	const isDateOnly = picker.dataset.dateTimeMode === "date";
 
-	if (!display || !hidden || !panel || !title || !weekdays || !grid || !hourInput || !minuteInput) {
+	if (!display || !hidden || !panel || !title || !weekdays || !grid || !hourInput || !minuteInput || !yearSelect) {
 		return;
 	}
 
@@ -305,12 +327,14 @@ dateTimePickers.forEach((picker) => {
 	buildWeekdays(weekdays, locale);
 	updateTitle(title, state.current, locale);
 	buildCalendar(grid, state);
+	buildYearOptions(yearSelect, state.current.getFullYear(), isDateOnly ? 120 : 20);
+	yearSelect.value = state.current.getFullYear().toString();
 	if (state.selected) {
 		hourInput.value = state.selected.getHours().toString().padStart(2, "0");
 		minuteInput.value = state.selected.getMinutes().toString().padStart(2, "0");
-		updateDisplay(display, hidden, state.selected, locale);
+		updateDisplay(display, hidden, state.selected, locale, isDateOnly);
 	} else {
-		updateDisplay(display, hidden, null, locale);
+		updateDisplay(display, hidden, null, locale, isDateOnly);
 		hourInput.value = "00";
 		minuteInput.value = "00";
 	}
@@ -332,10 +356,19 @@ dateTimePickers.forEach((picker) => {
 		state.current.setMonth(state.current.getMonth() - 1);
 		updateTitle(title, state.current, locale);
 		buildCalendar(grid, state);
+		yearSelect.value = state.current.getFullYear().toString();
 	});
 
 	nextBtn.addEventListener("click", () => {
 		state.current.setMonth(state.current.getMonth() + 1);
+		updateTitle(title, state.current, locale);
+		buildCalendar(grid, state);
+		yearSelect.value = state.current.getFullYear().toString();
+	});
+
+	yearSelect.addEventListener("change", () => {
+		const year = normalizeNumber(yearSelect.value, 1900, 2200);
+		state.current.setFullYear(year);
 		updateTitle(title, state.current, locale);
 		buildCalendar(grid, state);
 	});
@@ -356,6 +389,14 @@ dateTimePickers.forEach((picker) => {
 			state.selected.setFullYear(picked.getFullYear(), picked.getMonth(), picked.getDate());
 		}
 		buildCalendar(grid, state);
+		if (isDateOnly) {
+			state.selected.setHours(0, 0, 0, 0);
+			updateDisplay(display, hidden, state.selected, locale, isDateOnly);
+			if (window.jQuery && hidden.classList.contains("validate-hidden")) {
+				window.jQuery(hidden).valid();
+			}
+			closePanel();
+		}
 	});
 
 	todayBtn.addEventListener("click", () => {
@@ -366,13 +407,15 @@ dateTimePickers.forEach((picker) => {
 		minuteInput.value = now.getMinutes().toString().padStart(2, "0");
 		updateTitle(title, state.current, locale);
 		buildCalendar(grid, state);
-		updateDisplay(display, hidden, state.selected, locale);
+		buildYearOptions(yearSelect, state.current.getFullYear(), isDateOnly ? 120 : 20);
+		yearSelect.value = state.current.getFullYear().toString();
+		updateDisplay(display, hidden, state.selected, locale, isDateOnly);
 		closePanel();
 	});
 
 	clearBtn.addEventListener("click", () => {
 		state.selected = null;
-		updateDisplay(display, hidden, null, locale);
+		updateDisplay(display, hidden, null, locale, isDateOnly);
 		buildCalendar(grid, state);
 		closePanel();
 	});
@@ -383,8 +426,12 @@ dateTimePickers.forEach((picker) => {
 		if (!state.selected) {
 			state.selected = new Date();
 		}
-		state.selected.setHours(hours, minutes, 0, 0);
-		updateDisplay(display, hidden, state.selected, locale);
+		if (isDateOnly) {
+			state.selected.setHours(0, 0, 0, 0);
+		} else {
+			state.selected.setHours(hours, minutes, 0, 0);
+		}
+		updateDisplay(display, hidden, state.selected, locale, isDateOnly);
 		if (window.jQuery && hidden.classList.contains("validate-hidden")) {
 			window.jQuery(hidden).valid();
 		}

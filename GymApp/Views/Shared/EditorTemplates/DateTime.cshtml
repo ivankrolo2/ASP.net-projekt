@@ -1,17 +1,18 @@
 @model DateTime?
 
 @{
-    var fieldId = ViewData.TemplateInfo.GetFullHtmlFieldId("");
+    var fieldId = Html.IdForModel();
     var displayId = $"{fieldId}_display";
+    var isDateOnly = (ViewData["dateOnly"] as bool?) ?? false;
+    var displayPlaceholder = isDateOnly ? "Odaberi datum" : "Odaberi datum i vrijeme";
+    var mode = isDateOnly ? "date" : "date-time";
 }
-
-<div class="date-time-picker" data-date-time-picker>
+<div class="date-time-picker" data-date-time-picker data-date-time-mode="@mode">
     <input type="text"
            id="@displayId"
            class="form-control date-time-display"
-           placeholder="Odaberi datum i vrijeme"
            autocomplete="off"
-           readonly
+           placeholder="@displayPlaceholder"
            data-date-time-display
            data-date-time-target="@fieldId" />
 
@@ -31,6 +32,9 @@
         </div>
         <div class="date-time-weekdays" data-date-time-weekdays></div>
         <div class="date-time-grid" data-date-time-grid></div>
+        <div class="date-time-year-row">
+            <select class="form-select date-time-year" data-date-time-year></select>
+        </div>
         <div class="date-time-footer">
             <div class="date-time-time">
                 <input type="number" class="form-control date-time-input" data-date-time-hour min="0" max="23" />

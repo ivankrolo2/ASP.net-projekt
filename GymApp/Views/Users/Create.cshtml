@@ -30,7 +30,7 @@
 
         <div class="mb-3">
             <label class="form-label" for="DateOfBirth_display">@Html.DisplayNameFor(m => m.DateOfBirth)</label>
-            @Html.EditorFor(m => m.DateOfBirth, "DateTime")
+            @Html.EditorFor(m => m.DateOfBirth, "DateTime", new { dateOnly = true })
             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
         </div>
 
