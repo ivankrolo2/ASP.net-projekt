@@ -178,6 +178,234 @@ if (window.jQuery && window.jQuery.validator) {
 	});
 }
 
+const dateTimePickers = document.querySelectorAll("[data-date-time-picker]");
+
+const getLocale = () => navigator.language || document.documentElement.lang || "en";
+
+const formatDisplay = (date, locale) => {
+	const datePart = new Intl.DateTimeFormat(locale, {
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit"
+	}).format(date);
+	const timePart = new Intl.DateTimeFormat(locale, {
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: false
+	}).format(date);
+	return `${datePart} ${timePart}`;
+};
+
+const parseHiddenValue = (value) => {
+	if (!value) {
+		return null;
+	}
+	const date = new Date(value);
+	if (Number.isNaN(date.getTime())) {
+		return null;
+	}
+	if (date.getFullYear() < 1901) {
+		return null;
+	}
+	return date;
+};
+
+const normalizeNumber = (value, min, max) => {
+	const parsed = Number.parseInt(value, 10);
+	if (Number.isNaN(parsed)) {
+		return min;
+	}
+	return Math.min(Math.max(parsed, min), max);
+};
+
+const buildWeekdays = (container, locale) => {
+	container.innerHTML = "";
+	const base = new Date(Date.UTC(2020, 4, 31));
+	const formatter = new Intl.DateTimeFormat(locale, { weekday: "short" });
+	for (let i = 0; i < 7; i += 1) {
+		const day = new Date(base.getTime() + i * 86400000);
+		const cell = document.createElement("div");
+		cell.className = "date-time-weekday";
+		cell.textContent = formatter.format(day);
+		container.appendChild(cell);
+	}
+};
+
+const buildCalendar = (grid, state) => {
+	grid.innerHTML = "";
+	const { current, selected } = state;
+	const year = current.getFullYear();
+	const month = current.getMonth();
+	const firstDay = new Date(year, month, 1);
+	const startDay = new Date(year, month, 1 - firstDay.getDay());
+	for (let i = 0; i < 42; i += 1) {
+		const date = new Date(startDay);
+		date.setDate(startDay.getDate() + i);
+		const button = document.createElement("button");
+		button.type = "button";
+		button.className = "date-time-day";
+		button.textContent = date.getDate().toString();
+		if (date.getMonth() !== month) {
+			button.classList.add("is-muted");
+		}
+		if (selected && date.toDateString() === selected.toDateString()) {
+			button.classList.add("is-selected");
+		}
+		button.dataset.dateTimeValue = date.toISOString();
+		grid.appendChild(button);
+	}
+};
+
+const updateTitle = (title, date, locale) => {
+	title.textContent = new Intl.DateTimeFormat(locale, {
+		month: "long",
+		year: "numeric"
+	}).format(date);
+};
+
+const updateDisplay = (display, hidden, date, locale) => {
+	if (!date) {
+		display.value = "";
+		hidden.value = "";
+		return;
+	}
+	const iso = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+		.toISOString()
+		.slice(0, 16);
+	hidden.value = iso;
+	display.value = formatDisplay(date, locale);
+};
+
+dateTimePickers.forEach((picker) => {
+	const display = picker.querySelector("[data-date-time-display]");
+	const hidden = picker.querySelector("[data-date-time-value]");
+	const panel = picker.querySelector("[data-date-time-panel]");
+	const title = picker.querySelector("[data-date-time-title]");
+	const weekdays = picker.querySelector("[data-date-time-weekdays]");
+	const grid = picker.querySelector("[data-date-time-grid]");
+	const hourInput = picker.querySelector("[data-date-time-hour]");
+	const minuteInput = picker.querySelector("[data-date-time-minute]");
+	const prevBtn = picker.querySelector("[data-date-time-prev]");
+	const nextBtn = picker.querySelector("[data-date-time-next]");
+	const todayBtn = picker.querySelector("[data-date-time-today]");
+	const clearBtn = picker.querySelector("[data-date-time-clear]");
+	const applyBtn = picker.querySelector("[data-date-time-apply]");
+	const locale = getLocale();
+
+	if (!display || !hidden || !panel || !title || !weekdays || !grid || !hourInput || !minuteInput) {
+		return;
+	}
+
+	const initial = parseHiddenValue(hidden.value) || null;
+	const state = {
+		current: initial ? new Date(initial) : new Date(),
+		selected: initial ? new Date(initial) : null
+	};
+
+	buildWeekdays(weekdays, locale);
+	updateTitle(title, state.current, locale);
+	buildCalendar(grid, state);
+	if (state.selected) {
+		hourInput.value = state.selected.getHours().toString().padStart(2, "0");
+		minuteInput.value = state.selected.getMinutes().toString().padStart(2, "0");
+		updateDisplay(display, hidden, state.selected, locale);
+	} else {
+		updateDisplay(display, hidden, null, locale);
+		hourInput.value = "00";
+		minuteInput.value = "00";
+	}
+
+	const openPanel = () => {
+		panel.classList.add("open");
+	};
+
+	const closePanel = () => {
+		panel.classList.remove("open");
+	};
+
+	display.addEventListener("click", (event) => {
+		event.stopPropagation();
+		panel.classList.toggle("open");
+	});
+
+	prevBtn.addEventListener("click", () => {
+		state.current.setMonth(state.current.getMonth() - 1);
+		updateTitle(title, state.current, locale);
+		buildCalendar(grid, state);
+	});
+
+	nextBtn.addEventListener("click", () => {
+		state.current.setMonth(state.current.getMonth() + 1);
+		updateTitle(title, state.current, locale);
+		buildCalendar(grid, state);
+	});
+
+	grid.addEventListener("click", (event) => {
+		const target = event.target;
+		if (!(target instanceof HTMLElement)) {
+			return;
+		}
+		const value = target.dataset.dateTimeValue;
+		if (!value) {
+			return;
+		}
+		const picked = new Date(value);
+		if (!state.selected) {
+			state.selected = picked;
+		} else {
+			state.selected.setFullYear(picked.getFullYear(), picked.getMonth(), picked.getDate());
+		}
+		buildCalendar(grid, state);
+	});
+
+	todayBtn.addEventListener("click", () => {
+		const now = new Date();
+		state.current = new Date(now);
+		state.selected = new Date(now);
+		hourInput.value = now.getHours().toString().padStart(2, "0");
+		minuteInput.value = now.getMinutes().toString().padStart(2, "0");
+		updateTitle(title, state.current, locale);
+		buildCalendar(grid, state);
+		updateDisplay(display, hidden, state.selected, locale);
+		closePanel();
+	});
+
+	clearBtn.addEventListener("click", () => {
+		state.selected = null;
+		updateDisplay(display, hidden, null, locale);
+		buildCalendar(grid, state);
+		closePanel();
+	});
+
+	applyBtn.addEventListener("click", () => {
+		const hours = normalizeNumber(hourInput.value, 0, 23);
+		const minutes = normalizeNumber(minuteInput.value, 0, 59);
+		if (!state.selected) {
+			state.selected = new Date();
+		}
+		state.selected.setHours(hours, minutes, 0, 0);
+		updateDisplay(display, hidden, state.selected, locale);
+		if (window.jQuery && hidden.classList.contains("validate-hidden")) {
+			window.jQuery(hidden).valid();
+		}
+		closePanel();
+	});
+
+	[hourInput, minuteInput].forEach((input) => {
+		input.addEventListener("blur", () => {
+			input.value = normalizeNumber(input.value, 0, input === hourInput ? 23 : 59)
+				.toString()
+				.padStart(2, "0");
+		});
+	});
+
+	document.addEventListener("click", (event) => {
+		if (!picker.contains(event.target)) {
+			closePanel();
+		}
+	});
+});
+
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const animateCount = (element) => {
